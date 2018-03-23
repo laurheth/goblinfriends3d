@@ -19,7 +19,7 @@ Use arrow keys to move around. Press "i" to view your inventory, and from there 
 ## TODO
 
 - Dialogue system!
-- More detailed goblin interactions, included quests
+- More detailed goblin interactions, including quests
 - Monsters which are not goblins; these monsters may not be quite as eager to be friends. Sometimes, they will be terrorizing Goblin Towne; slaying these beasts or otherwise getting them to stop attacking goblins may be a good way to make goblins like you more.
 - Multiple levels. (probably connected by portals?)
 - More items!
