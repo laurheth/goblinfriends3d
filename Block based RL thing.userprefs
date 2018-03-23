@@ -1,0 +1,22 @@
+﻿<Properties StartupConfiguration="{51B534C9-D3D3-79E6-C45F-F0696B5BF0FF}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit.cs">
+    <Files>
+      <File FileName="Assets/Scripts/GuiScript.cs" Line="4" Column="1" />
+      <File FileName="Assets/Scripts/Inventory.cs" Line="89" Column="53" />
+      <File FileName="Assets/Scripts/ItemEntry.cs" Line="113" Column="79" />
+      <File FileName="Assets/Scripts/Item.cs" Line="47" Column="29" />
+      <File FileName="Assets/Scripts/Player.cs" Line="78" Column="20" />
+      <File FileName="Assets/Scripts/CameraManager.cs" Line="81" Column="23" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="35" Column="33" />
+      <File FileName="Assets/Scripts/Monster.cs" Line="43" Column="29" />
+      <File FileName="Assets/Scripts/SpeechBubble.cs" Line="24" Column="37" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Block_220based_220RL_220thing PreferredExecutionTarget="Unity.Editor" />
+  <MultiItemStartupConfigurations />
+</Properties>
