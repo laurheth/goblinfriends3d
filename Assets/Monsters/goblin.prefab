@@ -147,7 +147,7 @@ MonoBehaviour:
   spaceclaimer: {fileID: 1595995727711296, guid: b65b4445ba12b468f9a5489571e4eb86,
     type: 2}
   movetime: 0.1
-  SpeechBubbleObj: {fileID: 1167979037118632, guid: 5206c324233234a9fb980724b4921ab7,
+  EmoteBubbleObj: {fileID: 1938199637689310, guid: de03975a974184be983c615d3d24ac78,
     type: 2}
   hitpoints: 10
   maxhitpoints: 10

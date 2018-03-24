@@ -31,8 +31,8 @@ public class Unit : MonoBehaviour
     protected float inversemovetime;
     protected GameObject righthand;
     protected GameObject lefthand;
-    public GameObject SpeechBubbleObj;
-    protected SpeechBubble speechbubble;
+    public GameObject EmoteBubbleObj;
+    protected EmoteBubble emotebubble;
     protected bool ismonster;
     [HideInInspector] public int hitpoints;
     public int maxhitpoints;
@@ -67,11 +67,11 @@ public class Unit : MonoBehaviour
         TargDir = transform.rotation;
         //thisturn = false;
 
-        SpeechBubbleObj = Instantiate(SpeechBubbleObj, transform.position + Vector3.up, Quaternion.identity);
-        SpeechBubbleObj.transform.SetParent(transform,true);
-        SpeechBubbleObj.transform.localPosition = Vector3.up;//+Vector3.right;
+        EmoteBubbleObj = Instantiate(EmoteBubbleObj, transform.position + Vector3.up, Quaternion.identity);
+        EmoteBubbleObj.transform.SetParent(transform,true);
+        EmoteBubbleObj.transform.localPosition = Vector3.up;//+Vector3.right;
 
-        speechbubble = SpeechBubbleObj.GetComponent<SpeechBubble>();
+        emotebubble = EmoteBubbleObj.GetComponent<EmoteBubble>();
     }
 
     protected virtual void Update()

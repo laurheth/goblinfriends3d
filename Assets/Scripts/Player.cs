@@ -17,6 +17,7 @@ public class Player : Unit {
     int dxmod;
     int dzmod;
     bool switchdir;
+    bool emoting;
     private bool aiming;
     //public Camera cam;
     //int ragdollforawhile;
@@ -24,6 +25,7 @@ public class Player : Unit {
 
     public void Awake() {
         inventorymenu.GetComponent<Inventory>().playerscript = this;
+        emoting = false;
     }
 
 	protected override void Start () {
@@ -92,6 +94,12 @@ public class Player : Unit {
     protected override void Update()
     {
         base.Update();
+        if (!emoting) {
+            emoting=emotebubble.SetEmote(0);
+        }
+        /*else {
+            emoting=!(emotebubble.ClearEmote());
+        }*/
         if (falling == true) {
             thisturn = true;
             return;
