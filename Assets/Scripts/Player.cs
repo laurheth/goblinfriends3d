@@ -17,7 +17,7 @@ public class Player : Unit {
     int dxmod;
     int dzmod;
     bool switchdir;
-    bool emoting;
+    //bool emoting;
     private bool aiming;
     //public Camera cam;
     //int ragdollforawhile;
@@ -25,7 +25,7 @@ public class Player : Unit {
 
     public void Awake() {
         inventorymenu.GetComponent<Inventory>().playerscript = this;
-        emoting = false;
+        //emoting = false;
     }
 
 	protected override void Start () {
@@ -94,9 +94,9 @@ public class Player : Unit {
     protected override void Update()
     {
         base.Update();
-        if (!emoting) {
+        /*if (!emoting) {
             emoting=emotebubble.SetEmote(0);
-        }
+        }*/
         /*else {
             emoting=!(emotebubble.ClearEmote());
         }*/
@@ -197,10 +197,15 @@ public class Player : Unit {
         }
     }
 
-    // Check body slots
-    // 0==lefthand
-    // 1==righthand
-    public GameObject OnBody(int slot)
+	public override void UseEmote(int emotetype)
+	{
+		base.UseEmote(emotetype);
+        GameManager.instance.TransmitEmote(emotetype);
+	}
+	// Check body slots
+	// 0==lefthand
+	// 1==righthand
+	public GameObject OnBody(int slot)
     {
         if (slot == 0)
         {

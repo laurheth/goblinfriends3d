@@ -15,6 +15,7 @@ public class EmoteBubble : MonoBehaviour
     Canvas canvas;
     RectTransform bubblesize;
     bool writing;
+    bool isopen;
     Vector2 targsize;
     Vector2 minsize = new Vector2(32, 32);
     Vector2 maxsize = new Vector2(64, 70);
@@ -22,6 +23,7 @@ public class EmoteBubble : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+        isopen = false;
         writing = false;
         canvas = GetComponent<Canvas>();
         cam = FindObjectOfType<Camera>();
@@ -45,26 +47,25 @@ public class EmoteBubble : MonoBehaviour
     public bool SetEmote(int spritesel)
     {
         if (spritesel >= EmoteSprites.Length) { spritesel = 0; }
-        if (!writing)
-        {
-            StartCoroutine(Writing(EmoteSprites[spritesel]));
-            return true;
-        }
-        return false;
+        StartCoroutine(Writing(EmoteSprites[spritesel]));
+        return true;
     }
 
     public bool ClearEmote()
     {
-        if (!writing)
-        {
-            StartCoroutine(Clearing());
-            return true;
-        }
-        return false;
+        StartCoroutine(Clearing());
+        return true;
     }
 
     IEnumerator Writing(Sprite newemote)
     {
+        while (writing) {
+            yield return null;
+        }
+        if (isopen)
+        {
+            yield return Clearing();
+        }
         BubbleBG.SetActive(true);
         EmoteImage.sprite = newemote;
         writing = true;
@@ -88,10 +89,15 @@ public class EmoteBubble : MonoBehaviour
         //BubbleTextContent.text = towrite;
         EmoteImage.color = new Color(1f,1f,1f,1f);
         writing = false;
+        isopen = true;
     }
 
     IEnumerator Clearing()
     {
+        while (writing)
+        {
+            yield return null;
+        }
         writing = true;
         EmoteImage.color = new Color(1f, 1f, 1f, 0f);
 
@@ -115,6 +121,7 @@ public class EmoteBubble : MonoBehaviour
         bubblesize.sizeDelta = targsize;
 
         writing = false;
+        isopen = false;
         BubbleBG.SetActive(false);
     }
 }

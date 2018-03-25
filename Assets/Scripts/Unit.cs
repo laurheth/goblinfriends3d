@@ -36,6 +36,7 @@ public class Unit : MonoBehaviour
     protected bool ismonster;
     [HideInInspector] public int hitpoints;
     public int maxhitpoints;
+    int emoteturncount;
     public Camera cam;
     protected CameraManager camscript;
     public float basedamagefrac;// = 0.1f;
@@ -45,6 +46,7 @@ public class Unit : MonoBehaviour
     // Use this for initialization
     protected virtual void Start()
     {
+        emoteturncount = 0;
         //steplayermask=LayerMask.GetMask()
         stepping = false;
         hunger = 0;
@@ -67,11 +69,16 @@ public class Unit : MonoBehaviour
         TargDir = transform.rotation;
         //thisturn = false;
 
-        EmoteBubbleObj = Instantiate(EmoteBubbleObj, transform.position + Vector3.up, Quaternion.identity);
+        EmoteBubbleObj = Instantiate(EmoteBubbleObj, transform.position, Quaternion.identity);
         EmoteBubbleObj.transform.SetParent(transform,true);
-        EmoteBubbleObj.transform.localPosition = Vector3.up;//+Vector3.right;
+        EmoteBubbleObj.transform.localPosition = Vector3.zero;//Vector3.up;//+Vector3.right;
 
         emotebubble = EmoteBubbleObj.GetComponent<EmoteBubble>();
+    }
+
+    public virtual void UseEmote(int emotetype) {
+        emoteturncount = 3;
+        emotebubble.SetEmote(emotetype);
     }
 
     protected virtual void Update()
@@ -122,6 +129,10 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public bool IsVisible() {
+        return rend.isVisible;
+    }
+
     protected void RagDollOn()
     {
         boxcollider.enabled = false;
@@ -145,6 +156,7 @@ public class Unit : MonoBehaviour
         bool stepsuccess = false;
         if (horiz != 0 | verti != 0 | justgoup)
         {
+
             bool hitanything;
             RaycastHit hitinfo;
             int ymod = 0;
@@ -284,6 +296,13 @@ public class Unit : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+        if (stepsuccess) {
+            emoteturncount--;
+            if (emoteturncount == 0)
+            {
+                emotebubble.ClearEmote();
             }
         }
         return stepsuccess;

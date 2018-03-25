@@ -116,4 +116,14 @@ public class GameManager : MonoBehaviour {
     {
         mushrooms.Remove(script);
     }
+
+    public void TransmitEmote(int totransmit) {
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            if (monsters[i].IsVisible())
+            {
+                monsters[i].GetEmote(totransmit);
+            }
+        }
+    }
 }

@@ -134,4 +134,26 @@ public class Monster : Unit
             rend.enabled = TargPos[1] - 1 < player.transform.position[1];
         }*/
     }
+
+    public void GetEmote(int emotetoget)
+    {
+        switch (emotetoget)
+        {
+            case 0:
+                UseEmote(0);
+                break;
+            case 1:
+                UseEmote(1);
+                break;
+            case 2:
+                UseEmote(3);
+                break;
+            case 3:
+                UseEmote(2);
+                break;
+            default:
+                UseEmote(0);
+                break;
+        }
+    }
 }

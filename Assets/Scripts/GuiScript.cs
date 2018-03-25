@@ -9,6 +9,8 @@ public class GuiScript : MonoBehaviour {
     public GameObject mapmanager;
     public GameObject playerinfotext;
     public GameObject inventorypanel;
+    public GameObject EmoteMenu;
+    EmoteSelector emoteselector;
     Inventory inventoryscript;
     private Player playerscript;
     private Text infotext;
@@ -17,6 +19,7 @@ public class GuiScript : MonoBehaviour {
     // Startup
     void Start()
     {
+        emoteselector = EmoteMenu.GetComponent<EmoteSelector>();
         inventoryscript = inventorypanel.GetComponent<Inventory>();
         inventoryopen = false;
         infotext=playerinfotext.GetComponent<Text>();
@@ -33,6 +36,9 @@ public class GuiScript : MonoBehaviour {
                 inventoryscript.UpdateContents();
                 inventoryscript.RevealScreen();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.T)) {
+            emoteselector.SetVisible();
         }
         infotext.text = playerscript.playername + "\n";
         infotext.text += "Level " + playerscript.level + " " + playerscript.playerclass + "\n";

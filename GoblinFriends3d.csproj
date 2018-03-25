@@ -307,6 +307,8 @@
     <Compile Include="Assets\Scripts\CameraManager.cs" />
     <Compile Include="Assets\Scripts\DecorationLight.cs" />
     <Compile Include="Assets\Scripts\EmoteBubble.cs" />
+    <Compile Include="Assets\Scripts\EmoteSelection.cs" />
+    <Compile Include="Assets\Scripts\EmoteSelector.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GuiScript.cs" />
     <Compile Include="Assets\Scripts\Inventory.cs" />
