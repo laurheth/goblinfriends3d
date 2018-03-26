@@ -23,7 +23,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 471}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 6757
+  controlID: 7121
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_MinSize: {x: 304, y: 471}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 6758
+  controlID: 7122
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_MinSize: {x: 304, y: 200}
   m_MaxSize: {x: 8004, y: 4021}
   vertical: 0
-  controlID: 6759
+  controlID: 7123
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -202,9 +202,9 @@ MonoBehaviour:
     height: 334
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
-    scrollPos: {x: 0, y: 19}
-    m_SelectedIDs: 2ed5fbff
-    m_LastClickedID: -273106
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 6a280000
+    m_LastClickedID: 0
     m_ExpandedIDs: 8a5bf6ff2ed5fbff24f9fbffa28ffcff9efbffff0000000000290000582900006029000098290000b4290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -440,18 +440,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/GuiElements
+    - Assets/Monsters
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/GuiElements
+  - Assets/Monsters
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/laurenhetherington/GoblinFriends3d
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 7a270000
-    m_LastClickedID: 10106
+    m_SelectedIDs: ba270000
+    m_LastClickedID: 10170
     m_ExpandedIDs: 000000006c2700007a270000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -505,9 +505,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 2ed5fbff
-    m_LastClickedInstanceID: -273106
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 6a280000
+    m_LastClickedInstanceID: 10346
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000f82900001a2800003e29000000000000965a0000d828000094290000c816a4ff3eed84fff011dafe8c2700002a2b00001836f9ffb627000044280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -614,7 +614,7 @@ MonoBehaviour:
     width: 275
     height: 605
   m_PersistentViewDataDictionary: {fileID: 0}
-  m_ScrollPosition: {x: 0, y: 39.95508}
+  m_ScrollPosition: {x: 0, y: 1003.9547}
   m_InspectorMode: 0
   m_PreviewResizer:
     m_CachedPref: 154

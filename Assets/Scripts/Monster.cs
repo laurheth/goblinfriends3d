@@ -11,12 +11,14 @@ public class Monster : Unit
     public float[] InverseDesires;
     private int tiredness;
     private int anger;
+    private int fear;
 
     public bool active;
     //private bool thisturn;
     // Enemy turn
     protected override void Start() {
         anger = 0;
+        fear = 0;
         InverseDesires = new float[desires.Length];
         //for (int i = 0; i < InverseDesires.Length;i++) {
         //    InverseDesires[i] = 1f / desires[i];
@@ -135,24 +137,44 @@ public class Monster : Unit
         }*/
     }
 
+    public void Anger(int addval = 10) {
+        anger += addval;
+        UpdateDesire(0);
+        UseEmote(1);
+    }
+
     public void GetEmote(int emotetoget)
     {
         switch (emotetoget)
         {
             case 0:
                 UseEmote(0);
+                anger = 0;
+                UpdateDesire(0);
                 break;
             case 1:
+                anger += 10;
+                UpdateDesire(0);
                 UseEmote(1);
                 break;
             case 2:
-                UseEmote(3);
+                fear += 10;
+                if (fear > anger)
+                {
+                    anger = 0;
+                    tiredness += 50;
+                    UpdateDesire(0);
+                    UpdateDesire(2);
+                    UseEmote(3);
+                }
                 break;
             case 3:
-                UseEmote(2);
+                UseEmote(0);
+                anger = 0;
+                UpdateDesire(0);
                 break;
             default:
-                UseEmote(0);
+                //UseEmote(0);
                 break;
         }
     }

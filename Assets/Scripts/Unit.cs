@@ -77,8 +77,11 @@ public class Unit : MonoBehaviour
     }
 
     public virtual void UseEmote(int emotetype) {
-        emoteturncount = 3;
-        emotebubble.SetEmote(emotetype);
+        if (alive)
+        {
+            emoteturncount = 3;
+            emotebubble.SetEmote(emotetype);
+        }
     }
 
     protected virtual void Update()
@@ -244,6 +247,7 @@ public class Unit : MonoBehaviour
                             StartCoroutine(RotateSelf(Quaternion.LookRotation(AttackDir)));
                             Swing();
                             hitentity.GetComponent<Monster>().GetHit(AttackDir, meleedamage);
+                            hitentity.GetComponent<Monster>().Anger(meleedamage * 10);
                             thisturn = false;
                             stepsuccess = true;
                         }
@@ -300,7 +304,7 @@ public class Unit : MonoBehaviour
         }
         if (stepsuccess) {
             emoteturncount--;
-            if (emoteturncount == 0)
+            if (emoteturncount <= 0)
             {
                 emotebubble.ClearEmote();
             }
@@ -325,6 +329,7 @@ public class Unit : MonoBehaviour
             AttackDir *= damage;
             RagDollOn();
             rb.AddForce(AttackDir, ForceMode.Impulse);
+            emotebubble.ClearEmote();
             alive = false;
         }
     }
