@@ -10,13 +10,17 @@ public class Monster : Unit
     public float[] desires;
     public float[] InverseDesires;
     private int tiredness;
+    //int tiredthresh;
     private int anger;
     private int fear;
+    private List<Vector3> PathFound;
+    Vector3 HomeLocation;
 
     public bool active;
     //private bool thisturn;
     // Enemy turn
     protected override void Start() {
+        PathFound = null;
         anger = 0;
         fear = 0;
         InverseDesires = new float[desires.Length];
@@ -40,6 +44,7 @@ public class Monster : Unit
         for (int i = 0; i < InverseDesires.Length;i++) {
             UpdateDesire(i);
         }
+        HomeLocation = transform.position;
     }
 
     void UpdateDesire(int choose) {
@@ -69,15 +74,14 @@ public class Monster : Unit
     {
         tiredness++;
         hunger++;
-        //Debug.Log(hunger);
 
-        //if (MapGen.mapinstance.DistGoal(transform.position,1)<3) {
-        //    hunger = 0;
-        //    UpdateDesire(1);
-        //}
-        if (MapGen.mapinstance.DistGoal(transform.position, 2) < 3)
+        if (MapGen.mapinstance.DistGoal(transform.position, 2) < 8)
         {
-            tiredness = 0;
+            if (tiredness > 20)
+            {
+                tiredness = -10;
+                PathFound = MapGen.mapinstance.AStarPath(transform.position, HomeLocation);
+            }
             UpdateDesire(2);
         }
 
@@ -87,6 +91,7 @@ public class Monster : Unit
         if (hunger % 6 ==0) {
             UpdateDesire(1);
         }
+
         if (alive==false || falling == true){
             if (alive==false && !rend.isVisible) {
                 rb.isKinematic = true;
@@ -101,8 +106,49 @@ public class Monster : Unit
         }
         horizontal = 0;
         vertical = 0;
-        //thisturn = false;
-        MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, InverseDesires);
+
+        //MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, InverseDesires);
+        //if (rend.isVisible && (PathFound==null || (turnnum % 5)==0)) {
+        //PathFound=MapGen.mapinstance.AStarPath(gameObject.transform.position, player.transform.position);
+        /*for (int i = 0; i < ReturnList.Count; i++)
+        {
+            Debug.Log(ReturnList[i].ToString());
+        }*/
+        //}
+        if (PathFound != null && PathFound.Count > 0)
+        {
+            if ((PathFound[0]-transform.position).sqrMagnitude < 0.5f) {
+                PathFound.RemoveAt(0);
+            }
+            if (PathFound.Count > 0)
+            {
+                if (PathFound[0].x > gameObject.transform.position.x)
+                {
+                    horizontal = 1;
+                }
+                else if (PathFound[0].x < gameObject.transform.position.x)
+                {
+                    horizontal = -1;
+                }
+
+                if (PathFound[0].z > gameObject.transform.position.z)
+                {
+                    vertical = 1;
+                }
+                else if (PathFound[0].z < gameObject.transform.position.z)
+                {
+                    vertical = -1;
+                }
+            }
+            else
+            {
+                PathFound = null;
+            }
+        }
+        else {
+            MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, InverseDesires);
+        }
+
         if (horizontal==0 && vertical==0 && MapGen.mapinstance.TileType(transform.position)=='<') {
             if (Step(0,0,true)) {
                 thisturn = false;

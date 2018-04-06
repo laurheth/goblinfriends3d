@@ -14,6 +14,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile></TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectGenerator>VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneOSX:2</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
@@ -317,6 +318,7 @@
     <Compile Include="Assets\Scripts\Ladder.cs" />
     <Compile Include="Assets\Scripts\MapGen.cs" />
     <Compile Include="Assets\Scripts\MapGen.NewMapGen.cs" />
+    <Compile Include="Assets\Scripts\MapGen.NewPathfinding.cs" />
     <Compile Include="Assets\Scripts\MapGen.Pathfinding.cs" />
     <Compile Include="Assets\Scripts\MapGen.Subdivisions.cs" />
     <Compile Include="Assets\Scripts\Monster.cs" />

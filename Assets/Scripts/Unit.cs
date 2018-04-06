@@ -42,10 +42,12 @@ public class Unit : MonoBehaviour
     public float basedamagefrac;// = 0.1f;
     //public LayerMask steplayermask;
     [HideInInspector] public bool alive;
+    protected int turnnum;
 
     // Use this for initialization
     protected virtual void Start()
     {
+        turnnum = 0;
         emoteturncount = 0;
         //steplayermask=LayerMask.GetMask()
         stepping = false;
@@ -303,6 +305,7 @@ public class Unit : MonoBehaviour
             }
         }
         if (stepsuccess) {
+            turnnum++;
             emoteturncount--;
             if (emoteturncount <= 0)
             {

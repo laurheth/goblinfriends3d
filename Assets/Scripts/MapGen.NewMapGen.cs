@@ -491,7 +491,7 @@ public partial class MapGen : MonoBehaviour {
     void GoblinTowne(int sx, int ex, int sz, int ez,int mapgoal=-1) {
         Debug.Log("Goblin Towne");
         for (int k = 0; k < yslices;k++) {
-            Cavern(sx, ex, sz, ez, k * yscale, mapgoal);
+            Cavern(sx, ex, sz, ez, k * yscale,mapgoal);
         }
         RemoveFloors(sx, ex, sz, ez, 0, yslices);
         int numhouses = 10;
