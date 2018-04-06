@@ -203,7 +203,7 @@ public class Mushroom : Item {
     }
 
     protected IEnumerator ShrinkAway(bool dopause = true) {
-        //gettingpickedup = true;
+        gettingpickedup = true;
         float time = 2f;
         if (dopause)
         {

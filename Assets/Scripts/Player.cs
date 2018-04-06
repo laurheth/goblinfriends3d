@@ -203,6 +203,20 @@ public class Player : Unit {
 		base.UseEmote(emotetype);
         GameManager.instance.TransmitEmote(emotetype);
 	}
+
+    // Player is hostile to entities that are hostile to them first
+	public override bool CheckHostility(GameObject other)
+	{
+        Unit otherunit;
+        otherunit=other.GetComponent<Unit>();
+        if (otherunit!=null) {
+            return otherunit.CheckHostility(gameObject);
+        }
+        else {
+            return base.CheckHostility(other);
+        }
+	}
+
 	// Check body slots
 	// 0==lefthand
 	// 1==righthand

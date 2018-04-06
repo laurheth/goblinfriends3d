@@ -75,6 +75,7 @@ public class Monster : Unit
         tiredness++;
         hunger++;
 
+        /*
         if (MapGen.mapinstance.DistGoal(transform.position, 2) < 8)
         {
             if (tiredness > 20)
@@ -91,7 +92,9 @@ public class Monster : Unit
         if (hunger % 6 ==0) {
             UpdateDesire(1);
         }
+        */
 
+        // Current movement/aliveness state. Skip turn if dead or in an animation.
         if (alive==false || falling == true){
             if (alive==false && !rend.isVisible) {
                 rb.isKinematic = true;
@@ -107,17 +110,12 @@ public class Monster : Unit
         horizontal = 0;
         vertical = 0;
 
-        //MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, InverseDesires);
-        //if (rend.isVisible && (PathFound==null || (turnnum % 5)==0)) {
-        //PathFound=MapGen.mapinstance.AStarPath(gameObject.transform.position, player.transform.position);
-        /*for (int i = 0; i < ReturnList.Count; i++)
-        {
-            Debug.Log(ReturnList[i].ToString());
-        }*/
-        //}
+        // If an A* path has been previously found, follow that to its conclusion
+        // If not, use Dijkstra maps, prioritized by current needs
         if (PathFound != null && PathFound.Count > 0)
         {
-            if ((PathFound[0]-transform.position).sqrMagnitude < 0.5f) {
+            if (((PathFound[0]-transform.position).sqrMagnitude < 0.5f) ||
+                (PathFound.Count > 1 && (PathFound[0] - transform.position).sqrMagnitude < 2f)){
                 PathFound.RemoveAt(0);
             }
             if (PathFound.Count > 0)
@@ -146,9 +144,49 @@ public class Monster : Unit
             }
         }
         else {
-            MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, InverseDesires);
+            // If pissed at player & within range, chase them!
+            bool invert = false;
+            int usemapnum = 2;
+            //if (rend.isVisible)
+            //{
+            //    Debug.Log(hunger);
+            //}
+            if ((anger > 20 || fear > 20) && MapGen.mapinstance.DistGoal(transform.position, 0) < MapGen.mapinstance.PathDists[0])
+            {
+                usemapnum = 0;
+                if (fear > 20) { invert = true; }
+                //MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, InverseDesires);
+            }
+            // If hungry, find food
+            else if (hunger>20) {
+                usemapnum = 1;
+            }
+            // If tired, go home
+            else if (tiredness>20) {
+                // Close-ish to a goblin house? Get more specific, A* to specific home
+                if (MapGen.mapinstance.DistGoal(transform.position, 2) < 8)
+                {
+                    if (tiredness > 20)
+                    {
+                        tiredness = -10;
+                        PathFound = MapGen.mapinstance.AStarPath(transform.position, HomeLocation);
+                    }
+                }
+                usemapnum = 2;
+            }
+            // If nothing else but vaguely annoyed? Go after the player if they're around
+            else if (anger>0) {
+                usemapnum = 0;
+            }
+            // Rolldown using whatever pathmap wins out
+            MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical,usemapnum);
+            if (invert) {
+                horizontal *= -1;
+                vertical *= -1;
+            }
         }
 
+        // No horizontal motion and standing on a ladder? Climb it.
         if (horizontal==0 && vertical==0 && MapGen.mapinstance.TileType(transform.position)=='<') {
             if (Step(0,0,true)) {
                 thisturn = false;
@@ -224,4 +262,21 @@ public class Monster : Unit
                 break;
         }
     }
+
+	public override bool CheckHostility(GameObject other)
+	{
+        if (other == player)
+        {
+            if (anger>0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else
+        {
+            return base.CheckHostility(other);
+        }
+	}
 }

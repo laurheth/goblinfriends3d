@@ -71,10 +71,15 @@ public class GameManager : MonoBehaviour {
             MapGen.mapinstance.GenerateDMap(0);
         }
         turns++;
-        Debug.Log(turns);
+        //Debug.Log(turns);
 
         monsterturn = true;
         GrowMushrooms();
+
+        if (turns % 20 ==0) {
+            MapGen.mapinstance.RenewMushroomMap();
+        }
+
         // Move enemies
         MoveMonsters();
 	}

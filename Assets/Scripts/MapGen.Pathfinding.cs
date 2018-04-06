@@ -22,6 +22,8 @@ public partial class MapGen : MonoBehaviour {
     }
 
     // Find most important priority at location
+    // Most of this functions purpose is being moved to Monster.cs
+    // TODO: Refactor this out
     float SummedVal(int x, int y, int z, float[] InverseDesires)
     {
         float returnval = InverseDesires[0] * DMaps[x, y, z, 0];
@@ -80,6 +82,7 @@ public partial class MapGen : MonoBehaviour {
     }
 
     // Rolldown DMap
+    // This needs to be heavily refactored
     public void RollDown(Vector3 startpos, out int horizontal, out int vertical, float[] InverseDesires,bool cardinal=false,int ix=0,int iz=0)
     {
         int x = Mathf.RoundToInt(startpos[0]);

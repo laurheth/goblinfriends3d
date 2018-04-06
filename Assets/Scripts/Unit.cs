@@ -243,7 +243,7 @@ public class Unit : MonoBehaviour
                             thisturn = false;
                             stepsuccess = true;
                         }
-                        if (hitentity.tag == "Monster")
+                        if (hitentity.tag == "Monster" && CheckHostility(hitentity))
                         {
                             Vector3 AttackDir = new Vector3(horiz, 0f, verti);
                             StartCoroutine(RotateSelf(Quaternion.LookRotation(AttackDir)));
@@ -256,7 +256,7 @@ public class Unit : MonoBehaviour
                     }
                     else
                     {
-                        if (hitentity.tag == "Player")
+                        if (hitentity.tag == "Player" && CheckHostility(hitentity))
                         {
                             Vector3 AttackDir = new Vector3(horiz, 0f, verti);
                             StartCoroutine(RotateSelf(Quaternion.LookRotation(AttackDir)));
@@ -722,6 +722,11 @@ public class Unit : MonoBehaviour
             }
         }
         return null;
+    }
+
+    // Virtual function, to be overridden with more detail
+    public virtual bool CheckHostility(GameObject other) {
+        return false;
     }
 
     /*
