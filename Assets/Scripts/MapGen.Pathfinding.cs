@@ -24,6 +24,7 @@ public partial class MapGen : MonoBehaviour {
     // Find most important priority at location
     // Most of this functions purpose is being moved to Monster.cs
     // TODO: Refactor this out
+    /*
     float SummedVal(int x, int y, int z, float[] InverseDesires)
     {
         float returnval = InverseDesires[0] * DMaps[x, y, z, 0];
@@ -36,7 +37,7 @@ public partial class MapGen : MonoBehaviour {
         }
         //Debug.Log(returnval);
         return returnval;
-    }
+    }*/
 
     public void RollDownMono(int x, int y, int z, out int horizontal, out int vertical,int mapnum,int ix=0,int iz=0) {
         horizontal = 0;
@@ -65,9 +66,8 @@ public partial class MapGen : MonoBehaviour {
         }
     }
 
-    public void RollDown(Vector3 startpos, out int horizontal, out int vertical, int mapnum,bool cardinal=false, int ix = 0, int iz = 0) {
-        //horizontal = 0;
-        //vertical = 0;
+/*    public void RollDown(Vector3 startpos, out int horizontal, out int vertical, int mapnum,bool cardinal=false, int ix = 0, int iz = 0) {
+
         float[] MonoDesire = new float[PathDists.Length];
         for (int i = 0; i < PathDists.Length;i++) {
             if (i==mapnum) {
@@ -79,11 +79,12 @@ public partial class MapGen : MonoBehaviour {
         }
 
         RollDown(startpos, out horizontal, out vertical, MonoDesire, cardinal,ix,iz);
-    }
+    }*/
 
     // Rolldown DMap
-    // This needs to be heavily refactored
-    public void RollDown(Vector3 startpos, out int horizontal, out int vertical, float[] InverseDesires,bool cardinal=false,int ix=0,int iz=0)
+
+    public void RollDown(Vector3 startpos, out int horizontal, out int vertical, int mapnum, bool cardinal = false, int ix = 0, int iz = 0)
+//    public void RollDown(Vector3 startpos, out int horizontal, out int vertical, float[] InverseDesires,bool cardinal=false,int ix=0,int iz=0)
     {
         int x = Mathf.RoundToInt(startpos[0]);
         int y = Mathf.RoundToInt(startpos[1]);
@@ -103,7 +104,8 @@ public partial class MapGen : MonoBehaviour {
 
         int yactual = y / yscale;
 
-        float currentnum = SummedVal(x, yactual, z, InverseDesires);//DMaps[x, yactual, z, mapnum];
+        //float currentnum = SummedVal(x, yactual, z, InverseDesires);//DMaps[x, yactual, z, mapnum];
+        float currentnum = DMaps[x, yactual, z, mapnum];
         //Debug.Log("Currentnum=" + currentnum);
         float best = currentnum;
         float lastresort = currentnum+1;
@@ -123,12 +125,13 @@ public partial class MapGen : MonoBehaviour {
                 }
                 if (x + ii >= 0 && x + ii < xsize && z + jj >= 0 && z + jj < zsize && y >= 0 && y < ysize)
                 {
-                    checkthisone = SummedVal(x + ii, yactual, z + jj, InverseDesires);
+                    checkthisone = DMaps[x + ii, yactual, z + jj, mapnum];//SummedVal(x + ii, yactual, z + jj, InverseDesires);
                     if (checkthisone < best && checkthisone >= 0)
                     {
                         if (yactual > 0 && (PathMap[x + ii, y, z + jj] == '>' || PathMap[x + ii, y, z + jj] == ' '))
                         {
-                            if (SummedVal(x + ii, yactual - 1, z + jj, InverseDesires) > checkthisone)
+                            //if (SummedVal(x + ii, yactual - 1, z + jj, InverseDesires) > checkthisone)
+                            if (DMaps[x + ii, yactual-1, z + jj, mapnum] > checkthisone)
                             {
                                 continue;
                             }
@@ -160,8 +163,8 @@ public partial class MapGen : MonoBehaviour {
             //Debug.Log(startpos); 
             if (PathMap[x, y, z] == '<')
             {
-                if (SummedVal(x, yactual + 1, z, InverseDesires) < best)
-                //if (DMaps[x, yactual + 1, z, mapnum] < currentnum)
+                //if (SummedVal(x, yactual + 1, z, InverseDesires) < best)
+                if (DMaps[x, yactual + 1, z, mapnum] < best)
                 {
                     horizontal = 0;
                     vertical = 0;
