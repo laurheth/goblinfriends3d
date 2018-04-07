@@ -33,10 +33,12 @@ public class Monster : Unit
         damagetodo = 2;
         //hitpoints = 10;
         GameManager.instance.AddMonsterToList(this);
-        lefthand = Instantiate(helditems[0], new Vector3(transform.position.x + 0.41f, transform.position.y + 0.2f, transform.position.z - 0.3f), transform.rotation);
-        lefthand.GetComponent<Item>().pickedup = true;
-        lefthand.transform.parent = transform;
-
+        if (helditems.Length > 0)
+        {
+            lefthand = Instantiate(helditems[0], new Vector3(transform.position.x + 0.41f, transform.position.y + 0.2f, transform.position.z - 0.3f), transform.rotation);
+            lefthand.GetComponent<Item>().pickedup = true;
+            lefthand.transform.parent = transform;
+        }
         player = GameObject.FindGameObjectWithTag("Player");
         tiredness = Random.Range(0, 40);
         base.Start();
@@ -74,25 +76,6 @@ public class Monster : Unit
     {
         tiredness++;
         hunger++;
-
-        /*
-        if (MapGen.mapinstance.DistGoal(transform.position, 2) < 8)
-        {
-            if (tiredness > 20)
-            {
-                tiredness = -10;
-                PathFound = MapGen.mapinstance.AStarPath(transform.position, HomeLocation);
-            }
-            UpdateDesire(2);
-        }
-
-        if (tiredness % 4 ==0 && tiredness>20) {// || hunger % 3 ==0) {
-            UpdateDesire(2);
-        }
-        if (hunger % 6 ==0) {
-            UpdateDesire(1);
-        }
-        */
 
         // Current movement/aliveness state. Skip turn if dead or in an animation.
         if (alive==false || falling == true){
