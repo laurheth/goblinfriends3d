@@ -241,7 +241,7 @@ MonoBehaviour:
   EmoteBubbleObj: {fileID: 1938199637689310, guid: de03975a974184be983c615d3d24ac78,
     type: 2}
   hitpoints: 100
-  maxhitpoints: 0
+  maxhitpoints: 50
   cam: {fileID: 887454801}
   basedamagefrac: 0.1
   alive: 0
@@ -2055,6 +2055,48 @@ MonoBehaviour:
   waitforprojectile: 0
   projectile: {fileID: 0}
   playerturn: 0
+--- !u!1001 &1639105353
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1695600476
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,48 +2571,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1882694697}
---- !u!1001 &1907186330
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814722246509250, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 70e1a0c3e02474d8ebde11dfb3b379e5, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &2012636725
 GameObject:
   m_ObjectHideFlags: 0

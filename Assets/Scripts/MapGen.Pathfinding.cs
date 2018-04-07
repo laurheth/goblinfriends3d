@@ -360,21 +360,12 @@ public partial class MapGen : MonoBehaviour {
     // Renew Mushroom Map
     public void RenewMushroomMap() {
         RefreshDMap(1);
-        /*
-        for (int i = 0; i < xsize;i++) {
-            for (int j = 0; j < zsize;j++) {
-                for (int k = 0; k < ysize;k++) {
-                    if (TileType(new Vector3(i,k,j))=='M') {
-                        AddMapGoal(1, new Vector3(i, k, j));
-                    }
-                }
-            }
-        }*/
+
         //Vector3 position;
         foreach (Mushroom shroom in mushrooms) {
             if (shroom != null && !shroom.pickedup)
             {
-                AddMapGoal(1, shroom.gameObject.transform.position);
+                AddMapGoal(1, shroom.transform.position);
             }
         }
         //AddMapGoal(2, TargPos);
@@ -382,4 +373,24 @@ public partial class MapGen : MonoBehaviour {
         GenerateDMap(1);
     }
 
+    // Renew Monster Maps
+    // 0+2==goblins & other humanoids
+    // 1+2==carnivores
+    // 2+2==herbivores (not implemented yet)
+    public void RenewMonsterMap(int monstertype, List<Monster> monsterscripts)
+    {
+        int dmapnum = monstertype + 3;
+        //Debug.Log(dmapnum);
+        RefreshDMap(dmapnum);
+
+        foreach (Monster thismonster in monsterscripts)
+        {
+            if (thismonster.monstertype == monstertype && thismonster.alive)
+            {
+                AddMapGoal(dmapnum, thismonster.transform.position);
+            }
+        }
+
+        GenerateDMap(dmapnum);
+    }
 }

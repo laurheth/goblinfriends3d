@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 65897721972098542}
   - component: {fileID: 23614404763525082}
   - component: {fileID: 54803031142314664}
-  - component: {fileID: 114688868969938738}
   - component: {fileID: 65429728668114120}
+  - component: {fileID: 114430433747013070}
   m_Layer: 0
   m_Name: spider
   m_TagString: Monster
@@ -125,7 +125,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.99, y: 0.99, z: 0.99}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114688868969938738
+--- !u!114 &114430433747013070
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1564561417052480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70344bbeef6db4c7e9e446f5a57978f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 011e5412063954464872f04c5017cf77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TargPos: {x: 0, y: 0, z: 0}
@@ -149,16 +149,14 @@ MonoBehaviour:
   movetime: 0.1
   EmoteBubbleObj: {fileID: 1938199637689310, guid: de03975a974184be983c615d3d24ac78,
     type: 2}
-  hitpoints: 10
-  maxhitpoints: 10
+  hitpoints: 0
+  maxhitpoints: 50
   cam: {fileID: 0}
-  basedamagefrac: 1
+  basedamagefrac: 3
   alive: 0
   helditems: []
   player: {fileID: 0}
-  desires:
-  - 1
-  - 0.75
-  - 0.75
+  desires: []
   InverseDesires: []
+  monstertype: 0
   active: 0

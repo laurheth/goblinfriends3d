@@ -304,6 +304,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Beast.cs" />
     <Compile Include="Assets\Scripts\BlockProperties.cs" />
     <Compile Include="Assets\Scripts\CameraManager.cs" />
     <Compile Include="Assets\Scripts\DecorationLight.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="Assets\Scripts\EmoteSelector.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GuiScript.cs" />
+    <Compile Include="Assets\Scripts\Humanoid.cs" />
     <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ItemEntry.cs" />

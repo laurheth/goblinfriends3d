@@ -82,6 +82,12 @@ public class GameManager : MonoBehaviour {
 
         // Move enemies
         MoveMonsters();
+
+        // Update DMaps for monster types
+        for (int i=0; i < 2;i++) {
+            MapGen.mapinstance.RenewMonsterMap(i, monsters);
+        }
+
 	}
 
     void MoveMonsters() {

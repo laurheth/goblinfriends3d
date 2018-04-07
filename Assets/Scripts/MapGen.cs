@@ -51,7 +51,7 @@ public partial class MapGen : MonoBehaviour
     {
         mushrooms = new List<Mushroom>();
         // 0-> player, 1-> mushrooms, 2-> goblintowne
-        NumDMaps = 3;
+        NumDMaps = PathDists.Length;
         //Check if instance already exists
         if (mapinstance == null)
 

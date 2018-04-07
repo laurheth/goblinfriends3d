@@ -57,7 +57,8 @@ public class Unit : MonoBehaviour
         climbing = false;
         glownum = 0;
         rend = GetComponent<MeshRenderer>();
-        maxhitpoints = hitpoints;
+        //maxhitpoints = hitpoints;
+        hitpoints = maxhitpoints;
         falling = false;
         rotating = false;
         //ismonster = true;
@@ -248,20 +249,31 @@ public class Unit : MonoBehaviour
                             Vector3 AttackDir = new Vector3(horiz, 0f, verti);
                             StartCoroutine(RotateSelf(Quaternion.LookRotation(AttackDir)));
                             Swing();
-                            hitentity.GetComponent<Monster>().GetHit(AttackDir, meleedamage);
-                            hitentity.GetComponent<Monster>().Anger(meleedamage * 10);
+                            Monster enemytohit = hitentity.GetComponent<Monster>();
+                            enemytohit.GetHit(AttackDir, meleedamage);
+                            enemytohit.Anger(meleedamage * 10);
+                            if (!enemytohit.alive) {
+                                DidMurder(enemytohit);
+                            }
                             thisturn = false;
                             stepsuccess = true;
                         }
                     }
                     else
                     {
-                        if (hitentity.tag == "Player" && CheckHostility(hitentity))
+                        if ((hitentity.tag == "Player" || hitentity.tag == "Monster") && CheckHostility(hitentity))
                         {
                             Vector3 AttackDir = new Vector3(horiz, 0f, verti);
                             StartCoroutine(RotateSelf(Quaternion.LookRotation(AttackDir)));
                             Swing();
-                            hitentity.GetComponent<Player>().GetHit(AttackDir, meleedamage);
+                            //hitentity.GetComponent<Unit>().GetHit(AttackDir, meleedamage);
+                            Unit enemytohit = hitentity.GetComponent<Unit>();
+                            enemytohit.GetHit(AttackDir, meleedamage);
+                            //enemytohit.Anger(meleedamage * 10);
+                            if (!enemytohit.alive)
+                            {
+                                DidMurder(enemytohit);
+                            }
                             thisturn = false;
                             stepsuccess = true;
                         }
@@ -748,5 +760,9 @@ public class Unit : MonoBehaviour
             Physics.IgnoreCollision(ignoreme.GetComponent<Collider>(), GetComponent<Collider>(), false);
         }
     }*/
+
+    protected virtual void DidMurder(Unit murdered) {
+        return;
+    }
 
 }

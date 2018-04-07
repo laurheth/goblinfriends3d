@@ -172,7 +172,10 @@ public class Player : Unit {
                         {
                             //boxcollider = fals
                             HasWeapon(true).Shoot(objectHit.position, damagetodo);
-                            objectHit.GetComponent<Monster>().Anger(damagetodo * 10);
+                            if (objectHit.GetComponent<Monster>().monstertype == 1)
+                            {
+                                objectHit.GetComponent<Monster>().Anger(damagetodo * 10);
+                            }
                             // Add shooting animation
                             thisturn = false;
                             aiming = false;

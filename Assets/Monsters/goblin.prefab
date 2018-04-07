@@ -23,8 +23,8 @@ GameObject:
   - component: {fileID: 65312650315547472}
   - component: {fileID: 23211738089138670}
   - component: {fileID: 54440438213880132}
-  - component: {fileID: 114846603928895494}
   - component: {fileID: 65221218411739172}
+  - component: {fileID: 114429394576396222}
   m_Layer: 0
   m_Name: goblin
   m_TagString: Monster
@@ -125,7 +125,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.99, y: 0.99, z: 0.99}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114846603928895494
+--- !u!114 &114429394576396222
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1556057284898562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70344bbeef6db4c7e9e446f5a57978f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 95f2ee53cc36c4dfc8d9af3b08a9bf79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TargPos: {x: 0, y: 0, z: 0}
@@ -149,7 +149,7 @@ MonoBehaviour:
   movetime: 0.1
   EmoteBubbleObj: {fileID: 1938199637689310, guid: de03975a974184be983c615d3d24ac78,
     type: 2}
-  hitpoints: 10
+  hitpoints: 0
   maxhitpoints: 10
   cam: {fileID: 0}
   basedamagefrac: 0.1
@@ -162,4 +162,5 @@ MonoBehaviour:
   - 0.75
   - 0.75
   InverseDesires: []
+  monstertype: 0
   active: 0
