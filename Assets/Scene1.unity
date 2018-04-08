@@ -749,6 +749,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emotepanel: {fileID: 1695600476}
+--- !u!1001 &502742237
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437447144554790, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 23469243056387524, guid: 3183a34ea9531438391947b6f24e3c67,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b486142915a4c421fbae28a5a21c35ba, type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 3183a34ea9531438391947b6f24e3c67, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &528918896
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,7 +2070,7 @@ MonoBehaviour:
   - {fileID: 1268385335793190, guid: 848d2a18c369c498fb4f426e773f135d, type: 2}
   ladder: {fileID: 1782252177196666, guid: 9fda35cfaf9be4d738ea9a49b4fd91a1, type: 2}
   mushroom: {fileID: 1585378703953918, guid: bd56fede961de4a3697e141d7ddd49d2, type: 2}
-  PathDists: 1400000090010000900100000a0000000a000000
+  PathDists: 140000009001000090010000080000000700000008000000
   fillpercent: 50
   mushrooms: []
 --- !u!4 &1509813284
