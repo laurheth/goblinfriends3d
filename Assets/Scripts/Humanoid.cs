@@ -59,10 +59,9 @@ public class Humanoid : Monster {
             }
             usemapnum = 2;
         }
-        // If nothing else but vaguely annoyed? Go after the player if they're around
-        else if (anger > 0)
+        else 
         {
-            usemapnum = 0;
+            wandering = true;
         }
 
         return usemapnum;

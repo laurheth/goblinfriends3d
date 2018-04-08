@@ -143,6 +143,7 @@ public class Monster : Unit
         else
         {
             bool invert = false;
+            wandering = false;
             int usemapnum = Decisions(out invert);
             if (!wandering)
             {

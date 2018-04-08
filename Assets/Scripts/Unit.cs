@@ -341,6 +341,7 @@ public class Unit : MonoBehaviour
     public void GetHit(Vector3 AttackDir, int damage)
     {
         hitpoints -= damage;
+        StartCoroutine(RedFlash(damage));
         if (hitpoints <= 0)
         {
             AttackDir *= damage;
@@ -687,6 +688,27 @@ public class Unit : MonoBehaviour
 
         //Debug.Log(finalColor);
 
+        mat.SetColor("_EmissionColor", finalColor);
+    }
+
+    IEnumerator RedFlash(int damagegot) {
+        float redness = damagegot * 50f / maxhitpoints;
+        float deredrate;
+        if (redness < 1f) { deredrate = 0.05f; }
+        else { deredrate = 1f / redness; }
+        redness = 1f;
+        Material mat = rend.material;
+
+        Color baseColor = Color.red;
+        Color finalColor;
+
+        while (redness > 0f) {
+            finalColor = baseColor * Mathf.LinearToGammaSpace(redness);
+            mat.SetColor("_EmissionColor",finalColor);
+            redness -= deredrate;
+            yield return null;
+        }
+        finalColor = Color.gray * Mathf.LinearToGammaSpace(0f);
         mat.SetColor("_EmissionColor", finalColor);
     }
 

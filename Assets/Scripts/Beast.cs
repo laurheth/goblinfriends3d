@@ -21,7 +21,6 @@ public class Beast : Monster
 
     protected override int Decisions(out bool invert)
     {
-        // If pissed at player & within range, chase them!
         int usemapnum = 4;
         invert = false;
 

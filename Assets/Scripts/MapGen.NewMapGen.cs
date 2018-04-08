@@ -517,6 +517,16 @@ public partial class MapGen : MonoBehaviour {
             goblinsadded++;
             PlaceMonster(-1, -1, -1, 0);
         }
+        while (vegansadded<NumVegans)
+        {
+            vegansadded++;
+            PlaceMonster(-1, -1, -1, 2);
+        }
+        while (beastsadded < NumBeasts)
+        {
+            beastsadded++;
+            PlaceMonster(-1, -1, -1, 1);
+        }
     }
 
     // Remove floors when a floor below exists

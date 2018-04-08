@@ -17,15 +17,24 @@ public partial class MapGen : MonoBehaviour
     public int yscale;
     public int level;
     public int NumGoblins;
+    public int NumVegans;
+    public int NumBeasts;
     private int goblinsadded;
+    private int vegansadded;
+    private int beastsadded;
     private int numgenerators;
     private int xsub;
     private int yslices;
     private int zsub;
     public GameObject player;
     public GameObject debugblock;
+    //public GameObject goblin;
     public GameObject[] decorations;
-    public GameObject[] monsters;
+    //private GameObject[][] monsters;
+    public GameObject[] humanoids;
+    public GameObject[] beasts;
+    public GameObject[] vegans;
+    //public GameObject[] beasts;
     //Vector3[] roomcentres;
     //private Vector3[] connectfrom;
     public int maxroomsize;
@@ -49,6 +58,9 @@ public partial class MapGen : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        goblinsadded = 0;
+        vegansadded = 0;
+        beastsadded = 0;
         mushrooms = new List<Mushroom>();
         // 0-> player, 1-> mushrooms, 2-> goblintowne
         NumDMaps = PathDists.Length;
@@ -367,7 +379,21 @@ public partial class MapGen : MonoBehaviour
     }
 
     // Place monster
-    void PlaceMonster(int x = -1,int y = -1, int z=-1, int forcemon=-1) {
+    // montype reflects monstertype; 0=> goblin, 1=> beast, 2=> vegan
+    void PlaceMonster(int x = -1,int y = -1, int z=-1, int montype=0, int forcemon=-1) {
+        GameObject[] monsters;
+        switch(montype) {
+            default:
+            case 0:
+                monsters = humanoids;
+                break;
+            case 1:
+                monsters = beasts;
+                break;
+            case 2:
+                monsters = vegans;
+                break;
+        }
         int monindex = Random.Range(0, monsters.Length);
         if (forcemon >= 0)
         {

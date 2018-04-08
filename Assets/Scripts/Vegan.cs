@@ -22,7 +22,7 @@ public class Vegan : Monster
         if (tiredness<0) {
             tiredthresh = 40;
         }
-        wandering = false;
+        //wandering = false;
 
         if ((anger > 20 || fear > 20) && MapGen.mapinstance.DistGoal(transform.position, 0) < MapGen.mapinstance.PathDists[0])
         {
