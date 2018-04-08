@@ -79,10 +79,7 @@ public class Monster : Unit
 
     public void EnemyTurn()
     {
-        if (monstertype == 0)
-        {
-            tiredness++;
-        }
+        tiredness++;
         hunger++;
 
         // Current movement/aliveness state. Skip turn if dead or in an animation.
