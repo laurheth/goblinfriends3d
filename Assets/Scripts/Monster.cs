@@ -18,11 +18,13 @@ public class Monster : Unit
     protected int recentemote;
     protected List<Vector3> PathFound;
     protected Vector3 HomeLocation;
+    protected bool wandering;
 
     public bool active;
     //private bool thisturn;
     // Enemy turn
     protected override void Start() {
+        wandering = false;
         recentemote = -1;
         PathFound = null;
         anger = 0;
@@ -95,8 +97,14 @@ public class Monster : Unit
         if (moving || climbing) {
             return;
         }
-        horizontal = 0;
-        vertical = 0;
+        if (!wandering)
+        {
+            horizontal = 0;
+            vertical = 0;
+        }
+        else if (horizontal==0 && vertical==0) {
+            horizontal = 1;
+        }
 
         // If an A* path has been previously found, follow that to its conclusion
         // If not, use Dijkstra maps, prioritized by current needs
@@ -136,11 +144,14 @@ public class Monster : Unit
         {
             bool invert = false;
             int usemapnum = Decisions(out invert);
-            MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, usemapnum);
-            if (invert)
+            if (!wandering)
             {
-                horizontal *= -1;
-                vertical *= -1;
+                MapGen.mapinstance.RollDown(transform.position, out horizontal, out vertical, usemapnum);
+                if (invert)
+                {
+                    horizontal *= -1;
+                    vertical *= -1;
+                }
             }
         }
 
@@ -187,7 +198,10 @@ public class Monster : Unit
     public void Anger(int addval = 10) {
         anger += addval;
         //UpdateDesire(0);
-        UseEmote(1);
+        if (recentemote != 3 && recentemote != 2)
+        {
+            UseEmote(1);
+        }
     }
 
     public void GetEmote(int emotetoget)

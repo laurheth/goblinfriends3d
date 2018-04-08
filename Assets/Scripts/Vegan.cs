@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Vegan : Monster
 {
-
+    int tiredthresh;
     // Use this for initialization
     protected override void Start()
     {
+        tiredthresh = 40;
         monstertype = 2;
         bravery = Random.Range(0, maxhitpoints/2); // range of braveries
         base.Start();
@@ -16,8 +17,12 @@ public class Vegan : Monster
     protected override int Decisions(out bool invert)
     {
         // If pissed at player & within range, chase them!
-        int usemapnum = 1;
+        int usemapnum = 6;
         invert = false;
+        if (tiredness<0) {
+            tiredthresh = 40;
+        }
+        wandering = false;
 
         if ((anger > 20 || fear > 20) && MapGen.mapinstance.DistGoal(transform.position, 0) < MapGen.mapinstance.PathDists[0])
         {
@@ -54,17 +59,46 @@ public class Vegan : Monster
             usemapnum = 1;
         }
         // If tired, go home
-        else if (tiredness > 20)
+        else if (tiredness > tiredthresh)
         {
-            PathFound = MapGen.mapinstance.AStarPath(transform.position, HomeLocation);
-            usemapnum = 1;
+            //PathFound = MapGen.mapinstance.AStarPath(transform.position, HomeLocation);
+            usemapnum = 6;
+            if (MapGen.mapinstance.DistGoal(transform.position, 6)<3) {
+                tiredness -= 10;
+            }
+            else {
+                tiredthresh = 0;
+            }
+
         }
-        // If nothing else but vaguely annoyed? Go after the player if they're around
-        else if (anger > 0)
-        {
-            usemapnum = 0;
+        else {
+            wandering = true;
         }
 
         return usemapnum;
     }
+
+    public override bool CheckHostility(GameObject other)
+    {
+        if (other == player)
+        {
+            if (hitpoints<maxhitpoints) {
+                return true;
+            }
+        }
+        else if (other.tag == "Monster")
+        {
+            Monster otherscript = other.GetComponent<Monster>();
+            if (otherscript.monstertype == 1)
+            {
+                return true;
+            }
+            else if (otherscript.monstertype == 0 && (hitpoints<maxhitpoints))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

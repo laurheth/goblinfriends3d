@@ -393,4 +393,27 @@ public partial class MapGen : MonoBehaviour {
 
         GenerateDMap(dmapnum);
     }
+
+    public void RenewNookMap()
+    {
+        RefreshDMap(6);
+        for (int k = 0; k < yslices; k++)
+        {
+            for (int i = 1; i < xsize - 1; i++)
+            {
+                for (int j = 1; j < zsize - 1; j++)
+                {
+                    if (Map[i, k * yscale, j] < -1)
+                    {
+                        if (NumNeighbours(i, k * yscale, j) > 5)
+                        {
+                            //PlaceDecoration(i, k * yscale, j, 0);
+                            AddMapGoal(6, new Vector3(i, k * yscale, j));
+                        }
+                    }
+                }
+            }
+        }
+        GenerateDMap(6);
+    }
 }

@@ -77,6 +77,8 @@ public class Unit : MonoBehaviour
         EmoteBubbleObj.transform.localPosition = Vector3.zero;//Vector3.up;//+Vector3.right;
 
         emotebubble = EmoteBubbleObj.GetComponent<EmoteBubble>();
+        horizontal = 0;
+        vertical = 0;
     }
 
     public virtual void UseEmote(int emotetype) {

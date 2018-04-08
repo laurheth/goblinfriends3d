@@ -185,7 +185,11 @@ public partial class MapGen : MonoBehaviour {
             MushroomPatch();
         }
         //GenerateDMap(1);
+        // Generate goblinhome map
         GenerateDMap(2);
+
+        // Generate map of nooks (vegans love nooks)
+        RenewNookMap();
 
         player.transform.position = PlaceEntity();
         /*for (int i = 0; i < 16;i++) {
