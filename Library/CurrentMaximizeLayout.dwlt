@@ -23,7 +23,7 @@ MonoBehaviour:
   m_MinSize: {x: 583, y: 342}
   m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 9838
+  controlID: 11888
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_MinSize: {x: 306, y: 342}
   m_MaxSize: {x: 8006, y: 8042}
   vertical: 1
-  controlID: 9839
+  controlID: 11889
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_MinSize: {x: 306, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 9840
+  controlID: 11890
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -202,9 +202,9 @@ MonoBehaviour:
     height: 334
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 906979ff
-    m_LastClickedID: -8820336
+    scrollPos: {x: 0, y: 119971}
+    m_SelectedIDs: e4290000
+    m_LastClickedID: 10724
     m_ExpandedIDs: 9efbfffff4ffffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -440,18 +440,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/GuiElements
+    - Assets/Monsters
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/GuiElements
+  - Assets/Monsters
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/laurenhetherington/GoblinFriends3d
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 80270000
-    m_LastClickedID: 10112
+    m_SelectedIDs: c2270000
+    m_LastClickedID: 10178
     m_ExpandedIDs: 000000007227000080270000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -505,9 +505,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 906979ff
-    m_LastClickedInstanceID: -8820336
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: e4290000
+    m_LastClickedInstanceID: 10724
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000f82900001a2800003e290000965a0000d828000094290000c816a4ff3eed84fff011dafe8c2700002a2b00001836f9ffb62700004428000000000000762b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -614,7 +614,7 @@ MonoBehaviour:
     width: 275
     height: 605
   m_PersistentViewDataDictionary: {fileID: 0}
-  m_ScrollPosition: {x: 0, y: 0}
+  m_ScrollPosition: {x: 0, y: 574.00574}
   m_InspectorMode: 0
   m_PreviewResizer:
     m_CachedPref: -154

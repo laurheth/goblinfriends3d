@@ -34,7 +34,7 @@ public class Beast : Monster
         {
             if (MapGen.mapinstance.DistGoal(transform.position, 5) < MapGen.mapinstance.PathDists[5])
             {
-                usemapnum = 4;
+                usemapnum = 5;
             }
             else
             {
@@ -66,8 +66,9 @@ public class Beast : Monster
             PathFound = MapGen.mapinstance.AStarPath(transform.position, HomeLocation);
         }
 
-        Debug.Log(transform.position);
-        Debug.Log(usemapnum);
+        //Debug.Log(transform.position);
+        //Debug.Log(usemapnum);
+        //Debug.Log(invert);
 
         //if (invert) { usemapnum *= -1; }
         return usemapnum;

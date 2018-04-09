@@ -202,6 +202,17 @@ public partial class MapGen : MonoBehaviour {
         }
         GameObject[] allobjects = GameObject.FindGameObjectsWithTag("Bl");*/
         RenewMushroomMap();
+
+        while (vegansadded < NumVegans)
+        {
+            vegansadded++;
+            PlaceMonster(-1, -1, -1, 2);
+        }
+        while (beastsadded < NumBeasts)
+        {
+            beastsadded++;
+            PlaceMonster(-1, -1, -1, 1);
+        }
     }
 
     void AttemptBatching() {
@@ -516,16 +527,6 @@ public partial class MapGen : MonoBehaviour {
         {
             goblinsadded++;
             PlaceMonster(-1, -1, -1, 0);
-        }
-        while (vegansadded<NumVegans)
-        {
-            vegansadded++;
-            PlaceMonster(-1, -1, -1, 2);
-        }
-        while (beastsadded < NumBeasts)
-        {
-            beastsadded++;
-            PlaceMonster(-1, -1, -1, 1);
         }
     }
 
