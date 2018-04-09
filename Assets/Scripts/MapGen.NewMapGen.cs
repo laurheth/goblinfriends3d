@@ -180,7 +180,8 @@ public partial class MapGen : MonoBehaviour {
         }
 
         // shrooms
-        for (int i = 0; i < 6; i++)
+        int numpatches = xsize * ysize / (600);
+        for (int i = 0; i < numpatches; i++)
         {
             MushroomPatch();
         }

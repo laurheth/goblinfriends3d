@@ -85,7 +85,7 @@ public class Mushroom : Item {
         FindObjectOfType<Camera>().GetComponent<CameraManager>().UpdateObjList();
 
         MapGen.mapinstance.TileType(transform.position, true, '.');
-        MapGen.mapinstance.RenewMushroomMap();
+        //MapGen.mapinstance.RenewMushroomMap();
     }
 
     public void SetColor(Color newcolor) {
@@ -157,8 +157,8 @@ public class Mushroom : Item {
                     if (MapGen.mapinstance.TileType(NextMushroomLoc) == '.')
                     {
                         Instantiate(mushroom, NextMushroomLoc, Quaternion.identity * Quaternion.Euler(Vector3.up * Random.Range(0, 360)));
-                        MapGen.mapinstance.TileType(NextMushroomLoc, true, 'M');
-                        MapGen.mapinstance.RenewMushroomMap();
+                        //MapGen.mapinstance.TileType(NextMushroomLoc, true, 'M');
+                        //MapGen.mapinstance.RenewMushroomMap();
                         success = true;
                         //PathMap[(int)NewMushroomLoc[0], (int)NewMushroomLoc[1], (int)NewMushroomLoc[2]] = 'M';
                     }
@@ -175,7 +175,7 @@ public class Mushroom : Item {
         }
         else if (!pickedup && (transform.position - oldpos).sqrMagnitude>1.2f) {
             oldpos = transform.position;
-            MapGen.mapinstance.RenewMushroomMap();
+            //MapGen.mapinstance.RenewMushroomMap();
         }
     }
 
@@ -186,7 +186,7 @@ public class Mushroom : Item {
             StartCoroutine(ShrinkAway(dopause));
             GameManager.instance.RemoveMushroomFromList(this);
             MapGen.mapinstance.mushrooms.Remove(this);
-            MapGen.mapinstance.RenewMushroomMap();
+            //MapGen.mapinstance.RenewMushroomMap();
             return Mathf.RoundToInt(rb.mass);
         }
         else {

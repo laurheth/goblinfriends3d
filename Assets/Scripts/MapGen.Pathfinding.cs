@@ -6,7 +6,7 @@ using UnityEngine;
 // All pathfinding related code here
 public partial class MapGen : MonoBehaviour {
 
-    int minvalpath = 1;
+    int minvalpath = 0;
     [HideInInspector] public List<Mushroom> mushrooms;
 
     // Add a map goal
@@ -220,18 +220,25 @@ public partial class MapGen : MonoBehaviour {
     }
 
     // Generate DMap
-    public void GenerateDMap(int mapnum,bool forceit=false,bool ignorefeatures=false)
+    public void GenerateDMap(int mapnum, bool forceit = false, bool ignorefeatures = false, bool localized = false, int sx = 1, int sz = 1, int startat=0,int maxiterations=9000)
     {//,bool thorough=false) {
         // Only generate this is it needs to be
         if (!forceit && !PathRefreshed[mapnum])
         {
             return;
         }
-        int currentnum = -1+minvalpath;
+        int currentnum = -1+minvalpath+startat;
         int ii = 0;
         int jj = 0;
         int breaker = 0;
         bool changed = true;
+        int[] bounds = { 1, xsize - 1, 1, zsize - 1 }; // Not localized? Do whole map.
+        if (localized) {
+            bounds[0] = Mathf.Max(sx - 1,1);
+            bounds[1] = Mathf.Min(sx + 1,xsize-1);
+            bounds[2] = Mathf.Max(sz - 1,1);
+            bounds[3] = Mathf.Min(sz + 1,zsize-1);
+        }
         //char currenttile;
         //bool numcheck = false;
         while (changed && breaker < 400)
@@ -242,9 +249,17 @@ public partial class MapGen : MonoBehaviour {
             changed = false;
             breaker++;
             currentnum++;
-            for (int i = 1; i < xsize-1; i++)
+            if (currentnum - startat > maxiterations+minvalpath) { return; }
+            if (localized) {
+                if (bounds[0] > 1) { bounds[0]--; }
+                if (bounds[1] < xsize-1) { bounds[1]++; }
+                if (bounds[2] > 1) { bounds[2]--; }
+                if (bounds[3] < zsize - 1) { bounds[3]++; }
+                //Debug.Log(bounds[0]+" "+bounds[1]+" "+bounds[2]+" "+bounds[3]);
+            }
+            for (int i = bounds[0]; i < bounds[1]; i++)
             {
-                for (int j = 1; j < zsize-1; j++)
+                for (int j = bounds[2]; j < bounds[3]; j++)
                 {
                     for (int k = 0; k < yslices; k++)
                     {
@@ -270,7 +285,7 @@ public partial class MapGen : MonoBehaviour {
                             {
                                 if (!ignorefeatures)
                                 {
-                                    if (PathMap[i, k * yscale, j] == '>')
+                                    if (PathMap[i, k * yscale, j] == '>'|| ((k - 1) > 0 && PathMap[i, k * yscale, j] == ' '))
                                     {
                                         if (DMaps[i, k - 1, j, mapnum] > currentnum + 1)
                                         {
@@ -364,9 +379,9 @@ public partial class MapGen : MonoBehaviour {
     }
 
     // Renew Mushroom Map
-    public void RenewMushroomMap() {
+    public IEnumerator RenewMushroomMap() {
         RefreshDMap(1);
-
+        Debug.Log("Renewed mushroom Map");
         //Vector3 position;
         foreach (Mushroom shroom in mushrooms) {
             if (shroom != null && !shroom.pickedup)
@@ -375,29 +390,52 @@ public partial class MapGen : MonoBehaviour {
             }
         }
         //AddMapGoal(2, TargPos);
-
-        GenerateDMap(1);
+        int itersize = 40;
+        for (int i = 0; i < PathDists[1]; i += itersize)
+        {
+            GenerateDMap(1,false,false,false,1,1,i,itersize);
+            yield return null;
+        }
     }
 
     // Renew Monster Maps
     // 0+2==goblins & other humanoids
     // 1+2==carnivores
     // 2+2==herbivores (not implemented yet)
-    public void RenewMonsterMap(int monstertype, List<Monster> monsterscripts)
+    public void RenewMonsterMap(List<Monster> monsterscripts)
+    //public void RenewMonsterMap(int monstertype, List<Monster> monsterscripts)
     {
-        int dmapnum = monstertype + 3;
+        int mapoffset = 3;
+        //int dmapnum = monstertype + 3;
         //Debug.Log(dmapnum);
-        RefreshDMap(dmapnum);
+        for (int i = 0; i < 3; i++)
+        {
+            RefreshDMap(i+mapoffset);
+        }
 
         foreach (Monster thismonster in monsterscripts)
         {
-            if (thismonster.monstertype == monstertype && thismonster.alive)
+            /*if (thismonster.monstertype == monstertype && thismonster.alive)
             {
                 AddMapGoal(dmapnum, thismonster.transform.position);
+            }*/
+            if (thismonster.alive)
+            {
+                AddMapGoal(thismonster.monstertype + mapoffset, thismonster.transform.position);
             }
         }
 
-        GenerateDMap(dmapnum);
+        foreach (Monster thismonster in monsterscripts)
+        {
+            if (thismonster.alive)
+            {
+                GenerateDMap(thismonster.monstertype + mapoffset, true, false, true,
+                             Mathf.RoundToInt(thismonster.transform.position.x),
+                             Mathf.RoundToInt(thismonster.transform.position.z));
+            }
+        }
+
+        //GenerateDMap(dmapnum);
     }
 
     public void RenewNookMap()

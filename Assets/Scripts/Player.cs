@@ -195,7 +195,9 @@ public class Player : Unit {
                 {
                     MapGen.mapinstance.RefreshDMap(0);
                     MapGen.mapinstance.AddMapGoal(0, TargPos);
-                    MapGen.mapinstance.GenerateDMap(0);
+                    MapGen.mapinstance.GenerateDMap(0,false,false,true,
+                                                    Mathf.RoundToInt(transform.position.x),
+                                                    Mathf.RoundToInt(transform.position.z));
                 }
             }
         }

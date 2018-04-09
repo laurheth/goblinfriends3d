@@ -76,17 +76,18 @@ public class GameManager : MonoBehaviour {
         monsterturn = true;
         GrowMushrooms();
 
-        if (turns % 20 ==0) {
-            MapGen.mapinstance.RenewMushroomMap();
+        if (turns % 10 ==0) {
+            StartCoroutine(MapGen.mapinstance.RenewMushroomMap());
         }
 
         // Move enemies
         MoveMonsters();
 
         // Update DMaps for monster types
-        for (int i=0; i < 3;i++) {
+        /*for (int i=0; i < 3;i++) {
             MapGen.mapinstance.RenewMonsterMap(i, monsters);
-        }
+        }*/
+        MapGen.mapinstance.RenewMonsterMap(monsters);
 
 	}
 
