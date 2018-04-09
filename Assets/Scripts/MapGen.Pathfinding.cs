@@ -209,7 +209,13 @@ public partial class MapGen : MonoBehaviour {
             return 1000;
         }
         else {
-            return DMaps[x, yactual, z, mapnum];
+            if (DMaps[x, yactual, z, mapnum] < PathDists[mapnum])
+            {
+                return DMaps[x, yactual, z, mapnum];
+            }
+            else {
+                return 9000;
+            }
         }
     }
 

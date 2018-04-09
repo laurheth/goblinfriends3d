@@ -43,6 +43,9 @@ public class Humanoid : Monster {
         // If hungry, find food
         else if (hunger > 20)
         {
+            if (MapGen.mapinstance.DistGoal(transform.position,5)<MapGen.mapinstance.PathDists[5]) {
+                usemapnum = 5;
+            }
             usemapnum = 1;
         }
         // If tired, go home

@@ -21,7 +21,7 @@ public class Beast : Monster
 
     protected override int Decisions(out bool invert)
     {
-        int usemapnum = 4;
+        int usemapnum = 5;
         invert = false;
 
         /*if ((anger > 20 || fear > 20) && MapGen.mapinstance.DistGoal(transform.position, 0) < MapGen.mapinstance.PathDists[0])
@@ -32,29 +32,33 @@ public class Beast : Monster
         // If hungry, find food
         if (hunger > 30 || tiredness < 100)
         {
-            if (MapGen.mapinstance.DistGoal(transform.position, 5) < MapGen.mapinstance.PathDists[5])
+
+            if (MapGen.mapinstance.DistGoal(transform.position, 5) < MapGen.mapinstance.DistGoal(transform.position, 0))
             {
                 usemapnum = 5;
             }
-            else
+            else if (MapGen.mapinstance.DistGoal(transform.position, 3) < MapGen.mapinstance.DistGoal(transform.position, 0))
             {
-                if (MapGen.mapinstance.DistGoal(transform.position, 3) < MapGen.mapinstance.DistGoal(transform.position, 0))
+                usemapnum = 3;
+            }
+            else if (MapGen.mapinstance.DistGoal(transform.position, 0)<MapGen.mapinstance.PathDists[0])
+            {
+                usemapnum = 0;
+            }
+            else {
+                wandering = true;
+            }
+            if (!wandering)
+            {
+                if (hitpoints < (maxhitpoints - bravery))
                 {
-                    usemapnum = 3;
+                    UseEmote(3);
+                    invert = true;
                 }
                 else
                 {
-                    usemapnum = 0;
+                    UseEmote(2);
                 }
-            }
-            if (hitpoints < (maxhitpoints - bravery))
-            {
-                UseEmote(3);
-                invert = true;
-            }
-            else
-            {
-                UseEmote(2);
             }
 
         }
