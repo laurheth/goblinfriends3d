@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour
     protected bool rotating;
     //protected bool falling;
     public bool thisturn;
-    protected bool climbing;
+    public bool climbing;
     public bool moving;
     public bool stepping;
     public bool falling;

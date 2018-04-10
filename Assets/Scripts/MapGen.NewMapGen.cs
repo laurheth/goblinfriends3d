@@ -4,6 +4,7 @@ using UnityEngine;
 
 public partial class MapGen : MonoBehaviour {
     public int fillpercent;
+    bool goblintownplaced;
     List<GameObject>[] objectsbytag;
     void MakeMap() {
         RoomID = -1;
@@ -20,8 +21,10 @@ public partial class MapGen : MonoBehaviour {
         int breaker2;
         int maxbreaker;
         bool success;
+        goblintownplaced = false;
         //bool gothome;
         int roomsizex, roomsizey, roomsizez;
+        //=false;
         int x, y, z;
         int tx, tz;
         int dx, dz;
@@ -104,6 +107,13 @@ public partial class MapGen : MonoBehaviour {
                     }
                     builtonlevelyet[y / yscale] = true;
                     BuildRoomType(x, roomsizex, z, roomsizez, y, hallmaterial, roomtype, false, 0, true);
+                    /*RoomTagBounds.Add(new int[6]);
+                    RoomTagBounds[RoomTagBounds.Count - 1][0] = x;
+                    RoomTagBounds[RoomTagBounds.Count - 1][1] = roomsizex;
+                    RoomTagBounds[RoomTagBounds.Count - 1][2] = y;
+                    RoomTagBounds[RoomTagBounds.Count - 1][3] = roomsizey;
+                    RoomTagBounds[RoomTagBounds.Count - 1][4] = z;
+                    RoomTagBounds[RoomTagBounds.Count - 1][5] = roomsizez;*/
                     //BuildRoom(x, roomsizex, z, roomsizez, y, hallmaterial, false, 0,true);
                     numtobuild -= (roomsizex-1)*(roomsizez-1);
                     success=true;
@@ -175,6 +185,9 @@ public partial class MapGen : MonoBehaviour {
                             Map[i, k, j] = Map[i, k - 1, j];
                         }
                     }
+                    /*if (k>0 && RoomTags[i,k,j]<0) {
+                        RoomTags[i, k, j] = RoomTags[i, k - 1, j];
+                    }*/
                 }
             }
         }
@@ -214,6 +227,7 @@ public partial class MapGen : MonoBehaviour {
             beastsadded++;
             PlaceMonster(-1, -1, -1, 1);
         }
+        SetRoomTagBounds();
     }
 
     void AttemptBatching() {
@@ -351,9 +365,9 @@ public partial class MapGen : MonoBehaviour {
             toreturn = 1;
         }
         // big room (Goblin Towne)
-        else if (yloc==0 && tilesleft>(16*maxroomsize*maxroomsize) && Random.Range(0,10)>0) {
-            ex = Random.Range(2 * maxroomsize, 4 * maxroomsize);
-            ez = Random.Range(2 * maxroomsize, 4 * maxroomsize);
+        else if (!goblintownplaced && yloc==0 && tilesleft>(16*maxroomsize*maxroomsize) && Random.Range(0,10)>0) {
+            ex = Random.Range(4 * maxroomsize, 6 * maxroomsize);
+            ez = Random.Range(4 * maxroomsize, 6 * maxroomsize);
             ey = yslices;//Mathf.Max(2,yslices);
             toreturn = 3;
         }
@@ -480,8 +494,8 @@ public partial class MapGen : MonoBehaviour {
         }
     }
 
-    bool GoblinHouse(int sx, int sy, int sz, int BuildMaterial,int mainroomid) {
-        int goblinhomesize = 4;
+    bool GoblinHouse(int sx, int sy, int sz, int BuildMaterial,int mainroomid,int goblinhomesize=4) {
+        //int goblinhomesize = 5;
         bool success = IsSpaceEmpty(sx-1, 2+goblinhomesize, sz-1, 2+goblinhomesize, sy, 1, -5);
 
         if (success) {
@@ -514,14 +528,16 @@ public partial class MapGen : MonoBehaviour {
         int breaker = 0;
         int x, y, z;
         int mainroomid = RoomID;
+        int housesize = 6;
         while (breaker<100 && numhouses>0) {
             breaker++;
             x = sx+Random.Range(1, ex - 6);
             z = sz + Random.Range(1, ez - 6);
             y = Random.Range(0,yslices)*yscale;
             if (y == yslices) { y--; }
-            if (GoblinHouse(x,y,z,1,mainroomid)) {
+            if (GoblinHouse(x,y,z,1,mainroomid,housesize)) {
                 numhouses--;
+                if (housesize > 4) { housesize--; }
             }
         }
         while (goblinsadded < NumGoblins)
@@ -529,6 +545,7 @@ public partial class MapGen : MonoBehaviour {
             goblinsadded++;
             PlaceMonster(-1, -1, -1, 0);
         }
+        goblintownplaced = true;
     }
 
     // Remove floors when a floor below exists

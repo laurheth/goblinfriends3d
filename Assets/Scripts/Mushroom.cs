@@ -73,6 +73,7 @@ public class Mushroom : Item {
         /*if (!alive) {
             return;
         }*/
+        //gettingpickedup = true;
         rb.constraints = RigidbodyConstraints.None;
         //rb.isKinematic = false;
         boxcollide.enabled = false;

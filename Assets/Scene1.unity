@@ -232,6 +232,7 @@ MonoBehaviour:
   boxcollider: {fileID: 7469317}
   level: 0
   thisturn: 0
+  climbing: 0
   moving: 0
   stepping: 0
   falling: 0
@@ -1992,9 +1993,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e6b6028d269423bae55fcda4373e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xsize: 60
+  xsize: 120
   ysize: 6
-  zsize: 60
+  zsize: 120
   numrooms: 8
   hallmaterial: 1
   goblintownmaterial: 3

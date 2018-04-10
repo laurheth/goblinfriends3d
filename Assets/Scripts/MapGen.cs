@@ -51,6 +51,8 @@ public partial class MapGen : MonoBehaviour
     private bool[] PathRefreshed;
     int NumDMaps;
     private int[,,] RoomTags;
+    int[,] RoomTagBounds;
+    //List<int[]> RoomTagBounds;
     private int RoomID;
 
     public static MapGen mapinstance = null;
@@ -62,6 +64,7 @@ public partial class MapGen : MonoBehaviour
         vegansadded = 0;
         beastsadded = 0;
         mushrooms = new List<Mushroom>();
+        //RoomTagBounds = new List<int[]>();
         // 0-> player, 1-> mushrooms, 2-> goblintowne
         NumDMaps = PathDists.Length;
         //Check if instance already exists
@@ -562,11 +565,128 @@ public partial class MapGen : MonoBehaviour
         }
     }
 
-    public int RoomTag(Vector3 position) {
+    public int RoomTag(Vector3 position)
+    {
         int x, y, z;
         x = Mathf.RoundToInt(position[0]);
         y = Mathf.RoundToInt(position[1]);
         z = Mathf.RoundToInt(position[2]);
+        return RoomTag(x, y, z);
+    }
+    public int RoomTag(int x, int y, int z) {
+        if (x<0 || x>=xsize || z<0 || z>=xsize || y<0 || y>=ysize) {
+            return -1;
+        }
         return RoomTags[x, y, z];
+    }
+
+    public bool IsInBounds(Vector3 position,int rtag,int ypos)
+    {
+        if (rtag<0 || rtag>RoomID) {
+            return true;
+        }
+        int x, y, z;
+        //int sliceofy = ypos / yscale + 1;
+        int wiggle = 1;
+        x = Mathf.RoundToInt(position[0]);
+        y = Mathf.RoundToInt(position[1]);
+        z = Mathf.RoundToInt(position[2]);
+        int thistag = RoomTag(x, y, z);
+        if (thistag<0) {
+            return true;
+        }
+        //Debug.Log(rtag);
+        /*
+         if (x>RoomTagBounds[0,rtag]-wiggle &&
+            x <= RoomTagBounds[1, rtag]+wiggle &&
+            y > RoomTagBounds[2, rtag]-wiggle &&
+            y <= RoomTagBounds[3, rtag] &&
+            z > RoomTagBounds[4, rtag]-wiggle &&
+            z <= RoomTagBounds[5, rtag]+wiggle
+           )
+           */
+        //bool toreturn = false;
+        if (x >= RoomTagBounds[0, rtag]-wiggle &&
+            x <= RoomTagBounds[1, rtag]+wiggle  &&
+            y > RoomTagBounds[2, rtag] - wiggle &&
+            y < RoomTagBounds[3, rtag] - wiggle &&
+            z >= RoomTagBounds[4, rtag]-wiggle  &&
+            z <= RoomTagBounds[5, rtag]+wiggle
+           ) {
+            return true;
+        }
+        /*for (int i = 0; i <= RoomID; i++)
+        {
+            if (y > RoomTagBounds[2, i] - wiggle &&
+                y < RoomTagBounds[3, i] - wiggle &&
+                RoomTag(x,y,z)==i &&
+                ypos > RoomTagBounds[2,i] - wiggle &&
+                ypos < RoomTagBounds[3,i] + wiggle
+               )
+            {
+                return true;
+            }
+        }*/
+        /*
+        if (x > RoomTagBounds[0, rtag] - wiggle &&
+            x <= RoomTagBounds[1, rtag] + wiggle &&
+            z > RoomTagBounds[4, rtag] - wiggle &&
+            z <= RoomTagBounds[5, rtag] + wiggle &&
+            y >= RoomTagBounds[3, rtag]-wiggle)
+        {
+            toreturn = false;
+        }
+        else if (ypos > RoomTagBounds[2, thistag] - wiggle &&
+            ypos < RoomTagBounds[3, thistag] - wiggle &&
+            y > RoomTagBounds[2, thistag] - wiggle &&
+            y < RoomTagBounds[3, thistag] - wiggle)
+        {
+            toreturn = true;
+        }*/
+
+
+
+        return false;
+    }
+
+    void SetRoomTagBounds() {
+        RoomTagBounds = new int[6,RoomID+1];
+        for (int j = 0; j < RoomID; j++)
+        {
+            RoomTagBounds[0, j] = xsize;
+            RoomTagBounds[1, j] = 0;
+            RoomTagBounds[2, j] = ysize;
+            RoomTagBounds[3, j] = 0;
+            RoomTagBounds[4, j] = zsize;
+            RoomTagBounds[5, j] = 0;
+        }
+
+        int thistag;
+        for (int i = 0; i < xsize; i++)
+        {
+            for (int j = 0; j < zsize; j++)
+            {
+                for (int k = 0; k < ysize; k++)
+                {
+                    thistag = RoomTag(i, k, j);
+                    if (thistag < 0) { continue; }
+                    /*if (thistag >= RoomID)
+                    {
+                        Debug.Log(thistag-RoomID);
+                    }*/
+                    if (RoomTagBounds[0, thistag] > i) { RoomTagBounds[0, thistag] = i; }
+                    if (RoomTagBounds[1, thistag] < i) { RoomTagBounds[1, thistag] = i; }
+                    if (RoomTagBounds[2, thistag] > k) { RoomTagBounds[2, thistag] = k; }
+                    if (RoomTagBounds[3, thistag] < k) { RoomTagBounds[3, thistag] = k; }
+                    if (RoomTagBounds[4, thistag] > j) { RoomTagBounds[4, thistag] = j; }
+                    if (RoomTagBounds[5, thistag] < j) { RoomTagBounds[5, thistag] = j; }
+                }
+            }
+        }
+        for (int j = 0; j < RoomID; j++)
+        {
+            RoomTagBounds[3, j] += yscale - RoomTagBounds[3, j] % yscale;
+            RoomTagBounds[2, j] -= RoomTagBounds[2, j] % yscale;
+        }
     }
 }

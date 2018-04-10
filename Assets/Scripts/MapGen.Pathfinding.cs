@@ -390,12 +390,13 @@ public partial class MapGen : MonoBehaviour {
             }
         }
         //AddMapGoal(2, TargPos);
-        int itersize = 40;
+        int itersize = 120*(3600)/(xsize*zsize);
         for (int i = 0; i < PathDists[1]; i += itersize)
         {
             GenerateDMap(1,false,false,false,1,1,i,itersize);
             yield return null;
         }
+        Debug.Log("Finished mushroom Map");
     }
 
     // Renew Monster Maps
