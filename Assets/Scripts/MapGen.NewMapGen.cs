@@ -193,7 +193,7 @@ public partial class MapGen : MonoBehaviour {
         }
 
         // shrooms
-        int numpatches = xsize * ysize / (600);
+        int numpatches = (xsize * zsize) / (600);
         for (int i = 0; i < numpatches; i++)
         {
             MushroomPatch();

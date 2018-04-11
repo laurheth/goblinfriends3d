@@ -281,6 +281,7 @@ public class Unit : MonoBehaviour
                         }
                         if (hunger > 20 && hitentity.tag == "Plant")
                         {
+                            Debug.Log(transform.position);
                             Debug.Log("hitplant");
                             if (hitentity.GetComponent<Mushroom>().IsAlive())
                             {

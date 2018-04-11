@@ -1993,9 +1993,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e6b6028d269423bae55fcda4373e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xsize: 120
+  xsize: 60
   ysize: 6
-  zsize: 120
+  zsize: 60
   numrooms: 8
   hallmaterial: 1
   goblintownmaterial: 3
@@ -2004,7 +2004,7 @@ MonoBehaviour:
   level: 1
   NumGoblins: 10
   NumVegans: 6
-  NumBeasts: 2
+  NumBeasts: 0
   player: {fileID: 7469314}
   debugblock: {fileID: 1386368604232990, guid: c045146c6d8f849d392727a589fbc763, type: 2}
   decorations:
