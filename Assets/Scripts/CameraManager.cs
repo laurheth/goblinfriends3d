@@ -27,6 +27,7 @@ public class CameraManager : MonoBehaviour {
     //int frames;
     bool itemlistmade;
     //int lastroomid;
+    int xsizechunks, zsizechunks;
 
     List<GameObject[]> chunks;
     int xchunks, zchunks, chunksize;
@@ -307,6 +308,8 @@ public class CameraManager : MonoBehaviour {
     }
 
     public void UpdateObjList() {
+        xsizechunks = MapGen.mapinstance.xsize + MapGen.mapinstance.xsize % chunksize;
+        zsizechunks = MapGen.mapinstance.zsize + MapGen.mapinstance.zsize % chunksize;
         xchunks = (MapGen.mapinstance.xsize / chunksize)+1;
         zchunks = (MapGen.mapinstance.zsize / chunksize)+1;
         int[] numobjs = new int[xchunks*zchunks];
@@ -349,7 +352,7 @@ public class CameraManager : MonoBehaviour {
         return Chunknum(Mathf.RoundToInt(x), Mathf.RoundToInt(z));
     }
     int Chunknum(int x, int z) {
-        if (x<0 || x>=MapGen.mapinstance.xsize || z<0 || z>MapGen.mapinstance.zsize) {
+        if (x<0 || x>=xsizechunks || z<0 || z>zsizechunks) {
             return -1;
         }
         return xchunks * (z / chunksize) + x / chunksize;

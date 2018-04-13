@@ -725,6 +725,13 @@ public class Unit : MonoBehaviour
                 GetHit(collision.impulse.normalized, Mathf.RoundToInt(collision.impulse.magnitude));
                 GameManager.instance.waitforprojectile = false;
             }
+            else if (hitter.tag=="Item" && hitter.GetComponent<Rigidbody>().velocity.magnitude > 1f) {
+                GetHit(collision.impulse.normalized, Mathf.RoundToInt(collision.impulse.magnitude));
+            }
+            else if (hitter.GetComponent<Unit>()!=null && hitter.GetComponent<Rigidbody>().isKinematic == false
+                     && hitter.transform.position.y>transform.position.y+0.5) {
+                
+            }
         }
     }
 
