@@ -260,6 +260,9 @@ public class Unit : MonoBehaviour
                             thisturn = false;
                             stepsuccess = true;
                         }
+                        if (hitentity.tag == "Decorations" && hitentity.name.Contains("Chest")) {
+                            hitentity.GetComponent<Chest>().OpenUp();
+                        }
                     }
                     else
                     {
@@ -339,7 +342,7 @@ public class Unit : MonoBehaviour
     }*/
 
 
-    public void GetHit(Vector3 AttackDir, int damage)
+    public void GetHit(Vector3 AttackDir, int damage,float impulsemult=1f)
     {
         hitpoints -= damage;
         StartCoroutine(RedFlash(damage));
@@ -715,20 +718,31 @@ public class Unit : MonoBehaviour
 
     void OnCollisionEnter(Collision collision) {
         GameObject hitter = collision.gameObject;
+
         if (hitter.transform.parent != transform)
         {
-            if (hitter.tag == "Projectile" && hitter.GetComponent<Rigidbody>().velocity.magnitude > 1f)
+            Rigidbody hrb = hitter.GetComponent<Rigidbody>();
+            if (hrb == null) { return; }
+            Vector3 impulse = hrb.mass * hrb.velocity;
+            Debug.Log("Mass:" + hrb.mass);
+            Debug.Log("Velocity:" + hrb.velocity.magnitude);
+            Debug.Log("Impulse:" + impulse.magnitude);
+            if (hitter.tag == "Projectile" && impulse.magnitude > 0.5f)
             {
                 hitter.transform.parent = transform;
-                hitter.GetComponent<Rigidbody>().isKinematic = true;
+                hrb.isKinematic = true;
                 hitter.GetComponent<BoxCollider>().enabled = false;
-                GetHit(collision.impulse.normalized, Mathf.RoundToInt(collision.impulse.magnitude));
+                GetHit(impulse.normalized, Mathf.RoundToInt(impulse.magnitude));
                 GameManager.instance.waitforprojectile = false;
             }
-            else if (hitter.tag=="Item" && hitter.GetComponent<Rigidbody>().velocity.magnitude > 1f) {
-                GetHit(collision.impulse.normalized, Mathf.RoundToInt(collision.impulse.magnitude));
+            else if (hitter.tag=="Items" && hrb.velocity.magnitude > 1f) {
+                Debug.Log("DID DAMAGE:" + Mathf.RoundToInt(impulse.magnitude / 5));
+                falling = true;
+                RagDollOn();
+                //GetHit(impulse.normalized, 1);
+                GetHit(impulse.normalized, Mathf.CeilToInt(impulse.magnitude/10),10f);
             }
-            else if (hitter.GetComponent<Unit>()!=null && hitter.GetComponent<Rigidbody>().isKinematic == false
+            else if (hitter.GetComponent<Unit>()!=null && hrb.isKinematic == false
                      && hitter.transform.position.y>transform.position.y+0.5) {
                 
             }

@@ -169,7 +169,7 @@ public class Mushroom : Item {
             sizevect[0] = size;
             sizevect[1] = size;
             sizevect[2] = size;
-            rb.mass = 20f*size*size*size;
+            rb.mass = 2f*size*size*size;
             Mass = rb.mass;
             transform.localScale = sizevect;
             shroomlight.intensity = Mathf.Min(size / 2f,maxshroombrightness);

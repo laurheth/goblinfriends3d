@@ -189,6 +189,7 @@ public class CameraManager : MonoBehaviour {
     void VisibilityLoop(GameObject[] things, int defaultlayer = 0, int startind = 0, int maxinds=-1,bool forcehide=false) {
         Vector3 position;
         GameObject thing;
+        Renderer rend;
         //foreach (GameObject thing in things)
         for (int i = startind; i < things.Length;i++)
         {
@@ -200,13 +201,20 @@ public class CameraManager : MonoBehaviour {
                 position = thing.transform.position;
                 //if (position.y -1 > lasty)// && !MapGen.mapinstance.IsInBounds(position, lastroomid))
                 //{
-                    //if (MapGen.mapinstance.RoomTag(position) != lastroomid)
-                    //if ((position.x < playertrans.position.x && position.z < playertrans.position.z) || MapGen.mapinstance.RoomTag(position) != lastroomid)
                 //if (MapGen.mapinstance.RoomTag(position) != lastroomid)
+                //if ((position.x < playertrans.position.x && position.z < playertrans.position.z) || MapGen.mapinstance.RoomTag(position) != lastroomid)
+                //if (MapGen.mapinstance.RoomTag(position) != lastroomid)
+                rend = thing.GetComponent<MeshRenderer>();
+                if (rend==null) {
+                    rend = thing.GetComponentInChildren<Renderer>();
+                    if (rend==null) {
+                        continue;
+                    }
+                }
                 if ((position.y - 1 > lasty) || forcehide)// && !MapGen.mapinstance.IsInBounds(position,lastroomid,lasty))
                 {
                     {
-                        thing.GetComponent<MeshRenderer>().enabled = false;
+                        rend.enabled = false;
                         thing.layer = 8;
                     }
                     /*else {
@@ -216,7 +224,7 @@ public class CameraManager : MonoBehaviour {
                 }
                 else
                 {
-                    thing.GetComponent<MeshRenderer>().enabled = true;
+                    rend.enabled = true;
                     thing.layer = defaultlayer;
                 }
             }

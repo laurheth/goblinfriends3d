@@ -25,13 +25,13 @@ public class Item : MonoBehaviour {
 
     public string GetMass() {
         if (Mass>10) {
-            return ((int)(Mass/10f)).ToString("D");
+            return ((int)(Mass)).ToString("D");
         }
         else if (Mass>1) {
-            return (Mass/10f).ToString("F1");
+            return (Mass).ToString("F1");
         }
         else {
-            return (Mass/10f).ToString("F");
+            return (Mass).ToString("F");
         }
     }
 
@@ -84,21 +84,30 @@ public class Item : MonoBehaviour {
     }
 
     public IEnumerator IgnoreTemporarily(GameObject ignoreme, float seconds=0.2f) {
-        foreach (Collider ignorethis in ignoreme.GetComponents<Collider>())
+        //Debug.Log("Ignoring " + ignoreme.name);
+        //Debug.Log("via collider:" + GetComponent<Collider>());
+        foreach (Collider ignorethis in ignoreme.GetComponentsInChildren<Collider>())
         {
-            Physics.IgnoreCollision(ignorethis, GetComponent<Collider>(), true);
+            foreach (Collider ignorevia in GetComponentsInChildren<Collider>())
+            {
+                Physics.IgnoreCollision(ignorethis, ignorevia, true);
+            }
         }
         float thistime = 0f;
         int breaker = 0;
-        while (thistime<seconds && breaker<200) {
+        while (thistime<seconds && breaker<400) {
             breaker++;
             thistime += Time.deltaTime;
             yield return null;
         }
 
+        //Debug.Log("Unignoring " + ignoreme.name);
         foreach (Collider ignorethis in ignoreme.GetComponents<Collider>())
         {
-            Physics.IgnoreCollision(ignorethis, GetComponent<Collider>(), false);
+            foreach (Collider ignorevia in GetComponentsInChildren<Collider>())
+            {
+                Physics.IgnoreCollision(ignorethis, ignorevia, false);
+            }
         }
     }
 
@@ -115,5 +124,14 @@ public class Item : MonoBehaviour {
             playerscript.SetSlot(1, gameObject);
         }
     }
-	
+
+    void OnCollisionEnter(Collision collision)
+    {
+        /*if (tag == "Items")
+        {
+            Debug.Log(collision.gameObject.name);
+            Debug.Log(collision.collider);
+        }*/
+    }
+
 }

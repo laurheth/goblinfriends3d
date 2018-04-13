@@ -197,7 +197,7 @@ IEndDragHandler
             {
                 TextIcon.rectTransform.SetParent(transform, true);
                 TextIcon.rectTransform.localPosition = new Vector3(-140, 0, -1);
-                Debug.Log(Hit.transform.position);
+                //Debug.Log(Hit.transform.position);
                 ThisItem.SetActive(true);
                 ThisItem.GetComponent<Collider>().enabled = true;
                 ThisItem.GetComponent<Rigidbody>().isKinematic = false;
@@ -211,7 +211,8 @@ IEndDragHandler
                 if (slot>=0) {
                     player.GetComponent<Player>().SetSlot(slot);
                 }
-
+                GameManager.instance.projectile = ThisItem;
+                GameManager.instance.waitforprojectile = true;
 
                 StartCoroutine(ThisItem.GetComponent<Item>().IgnoreTemporarily(player,1f));
 

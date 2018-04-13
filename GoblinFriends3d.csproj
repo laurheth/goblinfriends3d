@@ -307,6 +307,7 @@
     <Compile Include="Assets\Scripts\Beast.cs" />
     <Compile Include="Assets\Scripts\BlockProperties.cs" />
     <Compile Include="Assets\Scripts\CameraManager.cs" />
+    <Compile Include="Assets\Scripts\Chest.cs" />
     <Compile Include="Assets\Scripts\DecorationLight.cs" />
     <Compile Include="Assets\Scripts\EmoteBubble.cs" />
     <Compile Include="Assets\Scripts\EmoteSelection.cs" />
