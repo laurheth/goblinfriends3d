@@ -129,6 +129,7 @@ MonoBehaviour:
   IconColor: {r: 0.6102941, g: 0.4419371, b: 0, a: 1}
   color: {r: 0, g: 0, b: 0, a: 0}
   pickedup: 0
+  hardness: 1
   ranged: 1
   meleefraction: 0.2
   launchmultiplier: 5

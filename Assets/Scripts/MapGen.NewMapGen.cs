@@ -4,6 +4,7 @@ using UnityEngine;
 
 public partial class MapGen : MonoBehaviour {
     public int fillpercent;
+    public GameObject CeilingBlock;
     bool goblintownplaced;
     List<GameObject>[] objectsbytag;
     void MakeMap() {
@@ -174,8 +175,8 @@ public partial class MapGen : MonoBehaviour {
                             RoomTags[i, k - 1, j] = RoomTags[i, k, j];
                         }
                     }
-                    //else if (k > 0)
-                    else if(k % yscale != 0)
+                    else if (k > 0)
+                    //else if(k % yscale != 0)
                     { // Expand walls up to fill a slice
                         if (Map[i, k - 1, j] > 0)
                         {
@@ -189,6 +190,7 @@ public partial class MapGen : MonoBehaviour {
                         RoomTags[i, k, j] = RoomTags[i, k - 1, j];
                     }*/
                 }
+                Instantiate(CeilingBlock, new Vector3(i, ysize, j), Quaternion.identity);
             }
         }
 

@@ -10,6 +10,7 @@ public class Item : MonoBehaviour {
     public Color color;
     protected MeshRenderer mesh;
     public bool pickedup;
+    public float hardness;
 	// Use this for initialization
 	/*protected virtual void Start () {
         Name = "Item";

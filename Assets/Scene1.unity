@@ -141,7 +141,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 7469314}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 80
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -2079,6 +2079,8 @@ MonoBehaviour:
   mushroom: {fileID: 1585378703953918, guid: bd56fede961de4a3697e141d7ddd49d2, type: 2}
   PathDists: 14000000900100009001000009000000090000000900000090010000
   fillpercent: 50
+  CeilingBlock: {fileID: 1872689027642692, guid: d5b550043056346bc8429a5e7ca9c096,
+    type: 2}
   mushrooms: []
 --- !u!4 &1509813284
 Transform:

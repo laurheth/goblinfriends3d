@@ -168,6 +168,7 @@ MonoBehaviour:
   IconColor: {r: 0.49264705, g: 0.29558825, b: 0, a: 1}
   color: {r: 0, g: 0, b: 0, a: 0}
   pickedup: 0
+  hardness: 1
 --- !u!198 &198590037086340758
 ParticleSystem:
   m_ObjectHideFlags: 1

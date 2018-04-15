@@ -38,6 +38,7 @@ public class Unit : MonoBehaviour
     public int maxhitpoints;
     int emoteturncount;
     public Camera cam;
+    protected float fallingcount;
     protected CameraManager camscript;
     public float basedamagefrac;// = 0.1f;
     //public LayerMask steplayermask;
@@ -47,6 +48,7 @@ public class Unit : MonoBehaviour
     // Use this for initialization
     protected virtual void Start()
     {
+        fallingcount = 0f;
         turnnum = 0;
         emoteturncount = 0;
         //steplayermask=LayerMask.GetMask()
@@ -125,12 +127,14 @@ public class Unit : MonoBehaviour
         }*/
         if (falling == true)
         {
+            fallingcount += Time.deltaTime;
             RaycastHit hit;
             if (!CheckPosition(transform.position + Vector3.down, out hit))
             {
-                if (rb.velocity.magnitude < 0.05)
+                if (fallingcount>=1f && rb.velocity.magnitude < 0.05)
                 {
                     falling = false;
+                    fallingcount = 0f;
                     RagDollOff();
                 }
             }
@@ -350,9 +354,12 @@ public class Unit : MonoBehaviour
         {
             AttackDir *= damage;
             RagDollOn();
-            rb.AddForce(AttackDir, ForceMode.Impulse);
+
             emotebubble.ClearEmote();
             alive = false;
+        }
+        if (rb.isKinematic==false) {
+            rb.AddForce(AttackDir*impulsemult, ForceMode.Impulse);
         }
     }
 
@@ -404,7 +411,9 @@ public class Unit : MonoBehaviour
                 }*/
                 breaker++;
                 Vector3 newPosition = Vector3.MoveTowards(rb.position, Target, inversemovetime * Time.deltaTime);
+                //Vector3 setspeed = inversemovetime * (Target - rb.position);
                 rb.MovePosition(newPosition);
+                //rb.velocity = setspeed;
                 sqrRemainingdistance = (transform.position - Target).sqrMagnitude;
                 if (falling)
                 {
@@ -735,16 +744,25 @@ public class Unit : MonoBehaviour
                 GetHit(impulse.normalized, Mathf.RoundToInt(impulse.magnitude));
                 GameManager.instance.waitforprojectile = false;
             }
-            else if (hitter.tag=="Items" && hrb.velocity.magnitude > 1f) {
-                Debug.Log("DID DAMAGE:" + Mathf.RoundToInt(impulse.magnitude / 5));
+            else if (hitter.tag=="Items" && impulse.magnitude > 1f) {
+                int hitdamage = Mathf.FloorToInt((impulse.magnitude / 10) * hitter.GetComponent<Item>().hardness);
                 falling = true;
                 RagDollOn();
-                //GetHit(impulse.normalized, 1);
-                GetHit(impulse.normalized, Mathf.CeilToInt(impulse.magnitude/10),10f);
+                if (hitdamage > 0)
+                {
+                    Debug.Log("DID DAMAGE:" + hitdamage);
+                    //GetHit(impulse.normalized, 1);
+                    GetHit(impulse.normalized, hitdamage, 10f);
+                }
+                else {
+                    Debug.Log("Knocked over?");
+                    rb.AddForce(impulse, ForceMode.Impulse);
+                }
             }
-            else if (hitter.GetComponent<Unit>()!=null && hrb.isKinematic == false
-                     && hitter.transform.position.y>transform.position.y+0.5) {
-                
+            else if (hitter.GetComponent<Unit>()!=null && hrb.isKinematic == false) {
+                falling = true;
+                RagDollOn();
+                rb.AddForce(collision.impulse, ForceMode.Impulse);
             }
         }
     }
