@@ -277,6 +277,7 @@ public partial class MapGen : MonoBehaviour
                         {
                             Instantiate(blocks[Map[i, k - 1, j]], new Vector3(i, k, j), Quaternion.identity);
                             Map[i, k, j] = Map[i, k - 1, j];
+                            PathMap[i, k, j] = PathMap[i, k - 1, j];
                         }
                     }
                 }

@@ -177,12 +177,16 @@ public partial class MapGen : MonoBehaviour {
     }
 
     // Pathmap type?
-    public char TileType(Vector3 position, bool replace = false,char replacewith=' ')
-    {
+    public char TileType(Vector3 position, bool replace = false,char replacewith=' ') {
         int x, y, z;
         x = Mathf.RoundToInt(position[0]);
         y = Mathf.RoundToInt(position[1]);
         z = Mathf.RoundToInt(position[2]);
+        return TileType(x, y, z, replace, replacewith);
+    }
+
+    public char TileType(int x, int y, int z, bool replace=false,char replacewith=' ')
+    {
         if (x<0 || x>=xsize || y<0 || y>=ysize || z<0 || z>=zsize) {
             return ' ';
         }
@@ -230,6 +234,7 @@ public partial class MapGen : MonoBehaviour {
         int currentnum = -1+minvalpath+startat;
         int ii = 0;
         int jj = 0;
+        bool iswall = false;
         int breaker = 0;
         bool changed = true;
         int[] bounds = { 1, xsize - 1, 1, zsize - 1 }; // Not localized? Do whole map.
@@ -276,6 +281,14 @@ public partial class MapGen : MonoBehaviour {
                             if (PathMap[i, k * yscale, j] == ' ' && !ignorefeatures)
                             {
                                 continue;
+                            }
+                            iswall = true;
+                            for (int iii = 0; i < yscale;i++) {
+                                if (k * yscale + iii >= ysize) { break; }
+                                if (PathMap[i,k*yscale+iii,j] != '#') {
+                                    iswall = false;
+                                    break;
+                                }
                             }
                             if (PathMap[i, k * yscale, j] == '#' && !ignorefeatures)
                             {

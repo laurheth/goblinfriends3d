@@ -41,6 +41,7 @@ public class Unit : MonoBehaviour
     protected float fallingcount;
     protected CameraManager camscript;
     public float basedamagefrac;// = 0.1f;
+    //protected float currentheightcorrect;
     //public LayerMask steplayermask;
     [HideInInspector] public bool alive;
     protected int turnnum;
@@ -48,6 +49,7 @@ public class Unit : MonoBehaviour
     // Use this for initialization
     protected virtual void Start()
     {
+        //currentheightcorrect = 0f;
         fallingcount = 0f;
         turnnum = 0;
         emoteturncount = 0;
@@ -177,16 +179,23 @@ public class Unit : MonoBehaviour
                 ymod = 1;
             }
             hitanything = CheckPosition(new Vector3(horiz, 0.01f + ymod, verti) + transform.position, out hitinfo);
+            if (!hitanything && hitinfo.transform.gameObject.tag=="Stairs") {
+                hitanything = CheckPosition(new Vector3(horiz, 0.01f + ymod
+                                                        +0.5f, verti) + transform.position, out hitinfo);
+            }
             if (hitanything)
             {
-                //if ()
+
                 TargPos = new Vector3(horiz, 0f, verti) + transform.position;
                 TargPos[0] = Mathf.Round(TargPos[0]);
                 TargPos[1] = Mathf.Round(TargPos[1]);
                 TargPos[2] = Mathf.Round(TargPos[2]);
-                StartCoroutine(MoveSelf(TargPos));
-                TargDir = Quaternion.LookRotation(TargPos - transform.position);
+
+                //TargDir = Quaternion.LookRotation(TargPos - transform.position);
+                TargDir = Quaternion.LookRotation(new Vector3(horiz,0f,verti));
                 StartCoroutine(RotateSelf(TargDir));
+
+                StartCoroutine(MoveSelf(TargPos,true));
                 thisturn = false;
                 stepsuccess = true;
             }
@@ -370,11 +379,12 @@ public class Unit : MonoBehaviour
         if (rend.isVisible)
         {
             float angleremaining = Quaternion.Angle(transform.rotation, Target);
+            Quaternion newrotation;
             while (angleremaining > 1f && breakout < 1000 && alive)
             {
                 breakout++;
                 //Debug.Log(angleremaining);
-                Quaternion newrotation = Quaternion.RotateTowards(transform.rotation, Target, 60f * inversemovetime * Time.deltaTime);
+                newrotation = Quaternion.RotateTowards(transform.rotation, Target, 60f * inversemovetime * Time.deltaTime);
                 rb.MoveRotation(newrotation);
                 angleremaining = Quaternion.Angle(transform.rotation, Target);
                 if (falling)
@@ -392,13 +402,96 @@ public class Unit : MonoBehaviour
         rotating = false;
     }
 
-    protected virtual IEnumerator MoveSelf(Vector3 Target)
+    protected virtual IEnumerator MoveSelf(Vector3 Target,bool flat=false)
+    {
+        moving = true;
+        stepping = true;
+        int breaker = 0;
+
+        if (flat) {
+            Target.y = transform.position.y;
+        }
+        Vector3 movevect = (Target - transform.position).normalized;
+        float distance=(Target-transform.position).magnitude;
+        float increment = 0f;
+
+        GameObject BlockSpace = Instantiate(spaceclaimer, Target, Quaternion.identity);
+        BlockSpace.transform.parent = transform;
+        Vector3 newPosition;
+        if (rend.isVisible)
+        {
+            //rb.isKinematic = true;
+            while (distance > 0.0001 & alive & breaker < 200)
+            {
+                /*if (rb.tag=="Player") {
+                    Debug.Log(sqrRemainingdistance);
+                }*/
+                increment = inversemovetime * Time.deltaTime;
+                if (increment>distance) {
+                    increment = distance;
+                }
+                distance -= increment;
+
+                breaker++;
+                newPosition=transform.position + movevect * increment;//Vector3.MoveTowards(rb.position, Target, inversemovetime * Time.deltaTime);
+                //Vector3 setspeed = inversemovetime * (Target - rb.position);
+                rb.MovePosition(newPosition);
+                //rb.velocity = setspeed;
+                /*if (flat)
+                {
+                    sqrRemainingdistance = Mathf.Pow(transform.position.x - Target.x, 2f)
+                                                + Mathf.Pow(transform.position.z - Target.z, 2f);
+                }
+                else
+                {
+                    sqrRemainingdistance = (transform.position - Target).sqrMagnitude;
+                }*/
+                if (falling)
+                {
+                    moving = false;
+                    Destroy(BlockSpace);
+                    yield break;
+                }
+                else
+                {
+                    yield return null;
+                }
+            }
+        }
+        else
+        {
+            rb.MovePosition(Target);
+        }
+        //thisturn = false;
+        moving = false;
+        stepping = false;
+        //rb.isKinematic = false;
+        Destroy(BlockSpace);
+        //RaycastHit hit;
+        //if (CheckPosition(transform.position + Vector3.down, out hit))
+        if (CheckFloor(transform.position))
+        {
+            falling = true;
+            RagDollOn();
+        }
+    }
+    /*
+    protected virtual IEnumerator MoveSelf(Vector3 Target,bool flat=false)
     {
         moving = true;
         stepping = true;
         //boxcollider.enabled = false;
         int breaker = 0;
-        float sqrRemainingdistance = (transform.position - Target).sqrMagnitude;
+        float sqrRemainingdistance;
+        if (flat)
+        {
+            sqrRemainingdistance = Mathf.Pow(transform.position.x - Target.x,2f)
+                                        + Mathf.Pow(transform.position.z - Target.z,2f);
+        }
+        else
+        {
+            sqrRemainingdistance = (transform.position - Target).sqrMagnitude;
+        }
         GameObject BlockSpace = Instantiate(spaceclaimer, Target, Quaternion.identity);
         BlockSpace.transform.parent = transform;
         if (rend.isVisible)
@@ -406,15 +499,20 @@ public class Unit : MonoBehaviour
             //rb.isKinematic = true;
             while (sqrRemainingdistance > 0.0001 & alive & breaker < 200)
             {
-                /*if (rb.tag=="Player") {
-                    Debug.Log(sqrRemainingdistance);
-                }*/
                 breaker++;
                 Vector3 newPosition = Vector3.MoveTowards(rb.position, Target, inversemovetime * Time.deltaTime);
                 //Vector3 setspeed = inversemovetime * (Target - rb.position);
                 rb.MovePosition(newPosition);
                 //rb.velocity = setspeed;
-                sqrRemainingdistance = (transform.position - Target).sqrMagnitude;
+                if (flat)
+                {
+                    sqrRemainingdistance = Mathf.Pow(transform.position.x - Target.x, 2f)
+                                                + Mathf.Pow(transform.position.z - Target.z, 2f);
+                }
+                else
+                {
+                    sqrRemainingdistance = (transform.position - Target).sqrMagnitude;
+                }
                 if (falling)
                 {
                     moving = false;
@@ -444,7 +542,7 @@ public class Unit : MonoBehaviour
             RagDollOn();
         }
         //boxcollider.enabled = true;
-    }
+    }*/
 
     // Go up/down a ladder
     protected virtual IEnumerator Climb()

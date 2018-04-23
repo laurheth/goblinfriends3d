@@ -127,7 +127,9 @@ public class CameraManager : MonoBehaviour {
 
             /*if ((!player.GetComponent<Player>().falling && !player.GetComponent<Player>().climbing) &&
                 ( Mathf.RoundToInt(playertrans.position.y) != lasty || (newroomid!=lastroomid)))*/
-            if ((currentchunk!=Chunknum(playertrans.position.x,playertrans.position.z)) || lasty > Mathf.RoundToInt(playertrans.position.y+(int)scrollupdown) || (lasty < Mathf.RoundToInt(player.transform.position.y)+ (int)scrollupdown && !player.GetComponent<Player>().falling))
+            if ((currentchunk!=Chunknum(playertrans.position.x,playertrans.position.z)) ||
+                lasty > Mathf.RoundToInt(playertrans.position.y) ||
+                (lasty < Mathf.RoundToInt(player.transform.position.y) && !player.GetComponent<Player>().falling))
             //if ((newroomid != lastroomid) || (lastx != Mathf.RoundToInt(playertrans.position.x)) || (lastz != Mathf.RoundToInt(playertrans.position.z)) || lasty > Mathf.RoundToInt(playertrans.position.y) || (lasty < Mathf.RoundToInt(player.transform.position.y) && !player.GetComponent<Player>().falling))
             {
                 Debug.Log("camchange");

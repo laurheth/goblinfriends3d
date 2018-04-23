@@ -124,25 +124,6 @@ public partial class MapGen : MonoBehaviour {
         //Debug.Log(DMaps);
         PathDists[0] = rememberpathdist;
 
-        // Fill in path-map
-        for (int k = 0; k < ysize; k++)
-        {
-            for (int i = 0; i < xsize; i++)
-            {
-                for (int j = 0; j < zsize; j++)
-                {
-                    if (Map[i, k, j] < -1)
-                    {
-                        PathMap[i, k, j] = '.';
-                    }
-                    else if (Map[i, k, j] > 0)
-                    {
-                        PathMap[i, k, j] = '#';
-                    }
-                }
-            }
-        }
-
         // Find places to put decorations
         AddDecorations();
 
@@ -191,6 +172,25 @@ public partial class MapGen : MonoBehaviour {
                     }*/
                 }
                 Instantiate(CeilingBlock, new Vector3(i, ysize, j), Quaternion.identity);
+            }
+        }
+
+        // Fill in path-map
+        for (int k = 0; k < ysize; k++)
+        {
+            for (int i = 0; i < xsize; i++)
+            {
+                for (int j = 0; j < zsize; j++)
+                {
+                    if (Map[i, k, j] < -1)
+                    {
+                        PathMap[i, k, j] = '.';
+                    }
+                    else if (Map[i, k, j] > 0)
+                    {
+                        PathMap[i, k, j] = '#';
+                    }
+                }
             }
         }
 

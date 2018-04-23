@@ -15,6 +15,7 @@ TagManager:
   - Plant
   - SpaceClaimer
   - GUIItemEntry
+  - Stairs
   layers:
   - Default
   - TransparentFX
