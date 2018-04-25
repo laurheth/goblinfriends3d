@@ -26,6 +26,8 @@ public class Mushroom : Item {
     Vector3 sizevect;
     Vector3 oldpos;
     //CameraManager camscript;
+    private Color[] colors;
+    private string[] colornames;
 
     // Use this for initialization
     protected override void Start()
@@ -43,8 +45,8 @@ public class Mushroom : Item {
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         //rb.isKinematic = true;
-        Color[] colors = new Color[] { Color.red, Color.blue, Color.green, Color.cyan, Color.magenta, Color.yellow, Color.cyan };
-        string[] colornames = new string[] { "Red", "Blue", "Green", "Cyan", "Magenta", "Yellow", "Cyan" };
+        colors = new Color[] { Color.red, Color.blue, Color.green, Color.cyan, Color.magenta, Color.yellow, Color.cyan };
+        colornames = new string[] { "Red", "Blue", "Green", "Cyan", "Magenta", "Yellow", "Cyan" };
         //colors[0] = Color.red; colors[1] =
         int i = Random.Range(0, colors.Length);
         color = colors[i];
@@ -239,5 +241,24 @@ public class Mushroom : Item {
         boxcollide.enabled = false;
         capcollide.enabled = holding;
     }
+
+	public override void SetAttributes(float first, float second)
+	{
+        int colorint = Mathf.RoundToInt(first);
+        if (colorint < 0) { colorint = 0; }
+        if (colorint >= colors.Length) { colorint = colors.Length - 1; }
+        color = colors[colorint];
+        IconColor = color;
+        logsize = second - 1;
+        Grow();
+        Name = colornames[colorint] + " Mushroom";
+	}
+
+	public override float[] GetAttributes()
+	{
+        float[] toreturn = new float[2];
+        //toreturn[0] = 
+        return toreturn;
+	}
 
 }

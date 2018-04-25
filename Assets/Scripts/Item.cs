@@ -135,4 +135,13 @@ public class Item : MonoBehaviour {
         }*/
     }
 
+    public virtual void SetAttributes(float first, float second) {
+        return;
+    }
+
+    public virtual float[] GetAttributes() {
+        float[] toreturn = { 0f,0f };
+        return toreturn;
+    }
+
 }

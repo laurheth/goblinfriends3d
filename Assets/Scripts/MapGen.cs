@@ -34,6 +34,7 @@ public partial class MapGen : MonoBehaviour
     public GameObject[] humanoids;
     public GameObject[] beasts;
     public GameObject[] vegans;
+    public GameObject[] items;
     //public GameObject[] beasts;
     //Vector3[] roomcentres;
     //private Vector3[] connectfrom;

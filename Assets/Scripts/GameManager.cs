@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public bool playerturn;
     public static GameManager instance = null;
 
+    public GameObject[] SaveableObjects;
+
 	// Use this for initialization
 	void Awake () {
         frameswaited = 0;
@@ -137,5 +139,16 @@ public class GameManager : MonoBehaviour {
                 monsters[i].GetEmote(totransmit);
             }
         }
+    }
+
+    public GameObject GetGameObject(string objname) {
+        GameObject toreturn = null;
+        for (int i = 0; i < SaveableObjects.Length;i++) {
+            if (objname==SaveableObjects[i].name) {
+                toreturn = SaveableObjects[i];
+                break;
+            }
+        }
+        return toreturn;
     }
 }
