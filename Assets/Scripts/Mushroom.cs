@@ -28,11 +28,21 @@ public class Mushroom : Item {
     //CameraManager camscript;
     private Color[] colors;
     private string[] colornames;
+    private int colorind;
+    private bool initialized;
 
     // Use this for initialization
     protected override void Start()
     {
-        base.Start();
+        //base.Start();
+        if (!initialized)
+        {
+            MushInit();
+        }
+    }
+    private void MushInit() {
+        mesh = GetComponent<MeshRenderer>();
+        initialized = true;
         pickedup = false;
         //camscript = FindObjectOfType<Camera>().GetComponent<CameraManager>();
         maxshroombrightness = 0.6f;
@@ -49,6 +59,7 @@ public class Mushroom : Item {
         colornames = new string[] { "Red", "Blue", "Green", "Cyan", "Magenta", "Yellow", "Cyan" };
         //colors[0] = Color.red; colors[1] =
         int i = Random.Range(0, colors.Length);
+        colorind = i;
         color = colors[i];
         IconColor = color;
         Name = colornames[i] + " Mushroom";
@@ -71,7 +82,7 @@ public class Mushroom : Item {
         SetColor(color);
     }
 
-    public void Harvest() {
+    public void Harvest(bool loadedthisway=false) {
         /*if (!alive) {
             return;
         }*/
@@ -80,14 +91,16 @@ public class Mushroom : Item {
         //rb.isKinematic = false;
         boxcollide.enabled = false;
         capcollide.enabled = true;
-        rb.angularVelocity = new Vector3(Random.Range(0f, 1.0f), Random.Range(0f, 1.0f), Random.Range(0f, 1.0f));
+
         tag = "Items";
         gameObject.layer = 11;
         alive = false;
-
-        FindObjectOfType<Camera>().GetComponent<CameraManager>().UpdateObjList();
-
-        MapGen.mapinstance.TileType(transform.position, true, '.');
+        if (!loadedthisway)
+        {
+            FindObjectOfType<Camera>().GetComponent<CameraManager>().UpdateObjList();
+            rb.angularVelocity = new Vector3(Random.Range(0f, 1.0f), Random.Range(0f, 1.0f), Random.Range(0f, 1.0f));
+            MapGen.mapinstance.TileType(transform.position, true, '.');
+        }
         //MapGen.mapinstance.RenewMushroomMap();
     }
 
@@ -132,8 +145,8 @@ public class Mushroom : Item {
         }*/
     }
 
-    public void Grow() {
-        if (alive)
+    public void Grow(bool forced=false) {
+        if (alive || forced)
         {
             mesh.enabled = true;
             logsize++;
@@ -242,15 +255,28 @@ public class Mushroom : Item {
         capcollide.enabled = holding;
     }
 
-	public override void SetAttributes(float first, float second)
+	public override void SetAttributes(float first, float second, bool setheld=false)
 	{
+        MushInit();
+        if (setheld) {
+            Harvest(true);
+        }
         int colorint = Mathf.RoundToInt(first);
         if (colorint < 0) { colorint = 0; }
+
+        //colors = new Color[] { Color.red, Color.blue, Color.green, Color.cyan, Color.magenta, Color.yellow, Color.cyan };
+        //colornames = new string[] { "Red", "Blue", "Green", "Cyan", "Magenta", "Yellow", "Cyan" };
+
+        //capcollide = GetComponent<CapsuleCollider>();
+        //boxcollide = GetComponent<BoxCollider>();
+
         if (colorint >= colors.Length) { colorint = colors.Length - 1; }
+        colorind = colorint;
         color = colors[colorint];
         IconColor = color;
+        SetColor(color);
         logsize = second - 1;
-        Grow();
+        Grow(true);
         Name = colornames[colorint] + " Mushroom";
 	}
 
@@ -258,6 +284,8 @@ public class Mushroom : Item {
 	{
         float[] toreturn = new float[2];
         //toreturn[0] = 
+        toreturn[0] = colorind;
+        toreturn[1] = logsize;
         return toreturn;
 	}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -19,8 +20,11 @@ public class GameManager : MonoBehaviour {
 
     public GameObject[] SaveableObjects;
 
+    string playerfilename;
+
 	// Use this for initialization
 	void Awake () {
+        playerfilename = "playerfile.json";
         frameswaited = 0;
         projectilelastspot = Vector3.zero;
         waitforprojectile = false;
@@ -141,14 +145,39 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public GameObject MakeGameObject(string objname) {
+        GameObject tomake = GetGameObject(objname);
+        if (tomake == null) { return null; }
+        return Instantiate(tomake);
+    }
+
     public GameObject GetGameObject(string objname) {
         GameObject toreturn = null;
         for (int i = 0; i < SaveableObjects.Length;i++) {
-            if (objname==SaveableObjects[i].name) {
+            if (objname.Contains(SaveableObjects[i].name)) {
                 toreturn = SaveableObjects[i];
                 break;
             }
         }
         return toreturn;
+    }
+
+    public void SaveGame() {
+        SavePlayer savePlayer = new SavePlayer(player);
+        string json = JsonUtility.ToJson(savePlayer);
+        Debug.Log(Application.persistentDataPath + '/' + playerfilename);
+        File.WriteAllText(Application.persistentDataPath + '/' + playerfilename,json);
+    }
+
+    public bool LoadGame()
+    {
+        if (File.Exists(Application.persistentDataPath + '/' + playerfilename))
+        {
+            string json = File.ReadAllText(Application.persistentDataPath + '/' + playerfilename);
+            SavePlayer savePlayer = JsonUtility.FromJson<SavePlayer>(json);
+            savePlayer.LoadData(player);
+            return true;
+        }
+        return false;
     }
 }

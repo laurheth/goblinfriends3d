@@ -135,7 +135,7 @@ public class Item : MonoBehaviour {
         }*/
     }
 
-    public virtual void SetAttributes(float first, float second) {
+    public virtual void SetAttributes(float first, float second, bool setheld=false) {
         return;
     }
 

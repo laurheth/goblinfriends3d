@@ -91,6 +91,17 @@ public class Player : Unit {
         inventoryscript.UpdateContents();
     }
 
+    // Empty inventory, destroy contents
+    public void ClearInventory()
+    {
+        foreach (GameObject item in inventory) {
+            Object.Destroy(item);
+        }
+        inventory.Clear();
+        inventoryscript.ClearContents();
+        inventoryscript.UpdateContents();
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -130,6 +141,13 @@ public class Player : Unit {
 
         if (thisturn == true)
         {
+            if (Input.GetKey(KeyCode.F4)) {
+                GameManager.instance.SaveGame();
+            }
+            if (Input.GetKey(KeyCode.F5))
+            {
+                GameManager.instance.LoadGame();
+            }
             if (Input.GetKey(KeyCode.Space) && (horizontal !=0 || vertical != 0) ) {
                 StartCoroutine(RotateSelf(Quaternion.LookRotation(new Vector3(horizontal, 0f, vertical))));
                 StartCoroutine(Jump(horizontal, vertical));
@@ -265,6 +283,8 @@ public class Player : Unit {
                 righthand.transform.rotation = transform.rotation;
             }
         }
+        inventoryscript.ClearContents();
+        inventoryscript.UpdateContents();
     }
 
 }
