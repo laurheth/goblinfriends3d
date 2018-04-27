@@ -21,10 +21,12 @@ public class GameManager : MonoBehaviour {
     public GameObject[] SaveableObjects;
 
     string playerfilename;
+    string mapfilename;
 
 	// Use this for initialization
 	void Awake () {
         playerfilename = "playerfile.json";
+        mapfilename = "mapfile.json";
         frameswaited = 0;
         projectilelastspot = Vector3.zero;
         waitforprojectile = false;
@@ -164,20 +166,45 @@ public class GameManager : MonoBehaviour {
 
     public void SaveGame() {
         SavePlayer savePlayer = new SavePlayer(player);
+        SaveMap saveMap = MapGen.mapinstance.Save();
+
+        // Write playersave
         string json = JsonUtility.ToJson(savePlayer);
         Debug.Log(Application.persistentDataPath + '/' + playerfilename);
         File.WriteAllText(Application.persistentDataPath + '/' + playerfilename,json);
+
+        // Write mapsave
+        json = JsonUtility.ToJson(saveMap);
+        Debug.Log(Application.persistentDataPath + '/' + mapfilename);
+        File.WriteAllText(Application.persistentDataPath + '/' + mapfilename, json);
     }
 
     public bool LoadGame()
     {
         if (File.Exists(Application.persistentDataPath + '/' + playerfilename))
         {
-            string json = File.ReadAllText(Application.persistentDataPath + '/' + playerfilename);
+            string json;
+            if (File.Exists(Application.persistentDataPath + '/' + mapfilename))
+            {
+                // Load mapsave
+                json = File.ReadAllText(Application.persistentDataPath + '/' + mapfilename);
+                SaveMap saveMap = JsonUtility.FromJson<SaveMap>(json);
+                MapGen.mapinstance.Load(saveMap);
+            }
+
+            // Load playersave
+            json = File.ReadAllText(Application.persistentDataPath + '/' + playerfilename);
             SavePlayer savePlayer = JsonUtility.FromJson<SavePlayer>(json);
             savePlayer.LoadData(player);
+
+
             return true;
         }
         return false;
+    }
+
+    public void ClearLists() {
+        monsters.Clear();
+        mushrooms.Clear();
     }
 }

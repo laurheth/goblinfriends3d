@@ -10,20 +10,28 @@ public class Monster : Unit
     public float[] desires;
     public float[] InverseDesires;
     [HideInInspector] public int monstertype; // 0, humanoid, can be reasoned with. 1, carnivore, scary, eats things. 2, herbivore, eats plants.
-    protected int tiredness;
-    protected int bravery;
+    [HideInInspector] public int tiredness;
+    [HideInInspector] public int bravery;
     //int tiredthresh;
-    protected int anger;
-    protected int fear;
+    [HideInInspector] public int anger;
+    [HideInInspector] public int fear;
     protected int recentemote;
     protected List<Vector3> PathFound;
-    protected Vector3 HomeLocation;
+    [HideInInspector] public Vector3 HomeLocation;
     protected bool wandering;
 
     public bool active;
     //private bool thisturn;
     // Enemy turn
-    protected override void Start() {
+    protected override void Start()
+    {
+        if (!initialized)
+        {
+            InitUnit();
+        }
+    }
+	public override void InitUnit()
+	{
         wandering = false;
         recentemote = -1;
         PathFound = null;
@@ -47,7 +55,7 @@ public class Monster : Unit
         }
         player = GameObject.FindGameObjectWithTag("Player");
         tiredness = Random.Range(0, 40);
-        base.Start();
+        base.InitUnit();
         hunger += Random.Range(-40, 10);
         /*for (int i = 0; i < InverseDesires.Length;i++) {
             UpdateDesire(i);

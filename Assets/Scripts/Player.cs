@@ -57,6 +57,11 @@ public class Player : Unit {
 
 	}
 
+    public void RevertDirections() {
+        dxmod = 1;
+        dzmod = 1;
+    }
+
     public void ControlDirections(int angle) {
         int scratch=dxmod;
         if (angle>0) {

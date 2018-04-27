@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
     protected int horizontal;
     protected int vertical;
     private int glownum;
-    protected int hunger;
+    [HideInInspector] public int hunger;
     public int level;
     protected bool rotating;
     //protected bool falling;
@@ -39,6 +39,7 @@ public class Unit : MonoBehaviour
     int emoteturncount;
     public Camera cam;
     protected float fallingcount;
+    protected bool initialized;
     protected CameraManager camscript;
     public float basedamagefrac;// = 0.1f;
     //protected float currentheightcorrect;
@@ -49,6 +50,14 @@ public class Unit : MonoBehaviour
     // Use this for initialization
     protected virtual void Start()
     {
+        if (!initialized)
+        {
+            InitUnit();
+        }
+    }
+    public virtual void InitUnit()
+    {
+        initialized = true;
         //currentheightcorrect = 0f;
         fallingcount = 0f;
         turnnum = 0;

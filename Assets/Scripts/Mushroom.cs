@@ -214,6 +214,10 @@ public class Mushroom : Item {
         return alive;
     }
 
+    public void SetAlive(bool setalive) {
+        alive = setalive;
+    }
+
     public bool IsGettingPickedUp() {
         return gettingpickedup || pickedup;
     }

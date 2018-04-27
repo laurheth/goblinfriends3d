@@ -7,6 +7,7 @@ public class CameraManager : MonoBehaviour {
     public GameObject player;
     Player playerscript;
     public Vector3 baseoffset;
+    Quaternion baserotation;
     Vector3 offset;
     float currentrotation;
     bool rotating;
@@ -42,8 +43,14 @@ public class CameraManager : MonoBehaviour {
 
     private int cameramode;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        baserotation = transform.rotation;
+        CamInit();
+    }
+    public void CamInit() {
+        transform.rotation = baserotation;
         chunksize = 11;
         currentchunk = -1;
         chunksgot = new List<int>();
@@ -51,6 +58,7 @@ public class CameraManager : MonoBehaviour {
         chunks = new List<GameObject[]>();
         rotating = false;
         playerscript = player.GetComponent<Player>();
+        playerscript.RevertDirections();
         currentrotation = 0f;
         targetrotation = 0f;
         offset = baseoffset;
@@ -108,7 +116,7 @@ public class CameraManager : MonoBehaviour {
         {
             rotating=Rotate();
         }
-        newroomid = MapGen.mapinstance.RoomTag(playertrans.position);
+        //newroomid = MapGen.mapinstance.RoomTag(playertrans.position);
         //if (Input.GetAxis("Mouse ScrollWheel")!=0
         //scrollupdown += Input.GetAxis("Mouse ScrollWheel");
         //if (scrollupdown > 4) { scrollupdown = 4f; }
@@ -343,6 +351,8 @@ public class CameraManager : MonoBehaviour {
         foreach (GameObject thisone in blocks)
         {
             numchunk = Chunknum(thisone.transform.position.x, thisone.transform.position.z);
+            //Debug.Log("numchunk="+numchunk);
+            //Debug.Log(numobjs[numchunk]);
             chunks[numchunk][numobjs[numchunk]] = thisone;
             numobjs[numchunk]++;
         }

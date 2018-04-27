@@ -329,6 +329,7 @@
     <Compile Include="Assets\Scripts\MapGen.NewMapGen.cs" />
     <Compile Include="Assets\Scripts\MapGen.NewPathfinding.cs" />
     <Compile Include="Assets\Scripts\MapGen.Pathfinding.cs" />
+    <Compile Include="Assets\Scripts\MapGen.SaveLoad.cs" />
     <Compile Include="Assets\Scripts\MapGen.Subdivisions.cs" />
     <Compile Include="Assets\Scripts\Monster.cs" />
     <Compile Include="Assets\Scripts\Mushroom.cs" />

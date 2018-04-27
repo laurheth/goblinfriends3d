@@ -7,7 +7,7 @@ public partial class MapGen : MonoBehaviour {
     public GameObject CeilingBlock;
     bool goblintownplaced;
     List<GameObject>[] objectsbytag;
-    void MakeMap() {
+    void MakeMap(bool skipgen=false) {
         RoomID = -1;
 
         //Vector3 Origin = new Vector3(1, 0, 1);
@@ -29,104 +29,111 @@ public partial class MapGen : MonoBehaviour {
         int x, y, z;
         int tx, tz;
         int dx, dz;
-        bool[] builtonlevelyet = new bool[yslices];
-        for (int i = 0; i < yslices; i++) { builtonlevelyet[i] = false; }
-        int numtobuild = (xsize * zsize * fillpercent * yslices) / 100;
-        y = 0;
+        if (!skipgen)
+        {
+            bool[] builtonlevelyet = new bool[yslices];
+            for (int i = 0; i < yslices; i++) { builtonlevelyet[i] = false; }
+            int numtobuild = (xsize * zsize * fillpercent * yslices) / 100;
+            y = 0;
 
-        // Use DMap(0) for hallway drawing
-        int rememberpathdist = PathDists[0];
-        PathDists[0] = 400;
-        RefreshDMap(0,true);
-        maxbreaker = -1;
-        int roomtype=0;
-        // Add rooms
-        //for (int i = 0; i < numrooms;i++) {
-        while (maxbreaker<100 && numtobuild>0) {
-            //RoomID++;
-            maxbreaker++;
-            breaker = 0;
-            success = false;
-            while (!success && breaker<30) {
-                breaker++;
-                x = Random.Range(1, xsize - maxroomsize - 1);
-                y = Random.Range(0, yslices);
-                if (y == yslices) { y--; }
-                y *= yscale;
-                z = Random.Range(1, zsize - maxroomsize - 1);
-                //roomsizex = Random.Range(minroomsize, maxroomsize);
-                //roomsizez = Random.Range(minroomsize, maxroomsize);
-                roomtype = ChooseRoom(numtobuild, out roomsizex, out roomsizey, out roomsizez, y);
-                if ((x + roomsizex) > xsize) { x = xsize - 1 - roomsizex; }
-                if ((z + roomsizez) > zsize) { z = xsize - 1 - roomsizez; }
-                if (IsSpaceEmpty(x,roomsizex,z,roomsizez,y,1)) {
-                    for (int i = 0; i < roomsizey; i++)
+            // Use DMap(0) for hallway drawing
+            int rememberpathdist = PathDists[0];
+            PathDists[0] = 400;
+            RefreshDMap(0, true);
+            maxbreaker = -1;
+            int roomtype = 0;
+            // Add rooms
+            //for (int i = 0; i < numrooms;i++) {
+            while (maxbreaker < 100 && numtobuild > 0)
+            {
+                //RoomID++;
+                maxbreaker++;
+                breaker = 0;
+                success = false;
+                while (!success && breaker < 30)
+                {
+                    breaker++;
+                    x = Random.Range(1, xsize - maxroomsize - 1);
+                    y = Random.Range(0, yslices);
+                    if (y == yslices) { y--; }
+                    y *= yscale;
+                    z = Random.Range(1, zsize - maxroomsize - 1);
+                    //roomsizex = Random.Range(minroomsize, maxroomsize);
+                    //roomsizez = Random.Range(minroomsize, maxroomsize);
+                    roomtype = ChooseRoom(numtobuild, out roomsizex, out roomsizey, out roomsizez, y);
+                    if ((x + roomsizex) > xsize) { x = xsize - 1 - roomsizex; }
+                    if ((z + roomsizez) > zsize) { z = xsize - 1 - roomsizez; }
+                    if (IsSpaceEmpty(x, roomsizex, z, roomsizez, y, 1))
                     {
-                        if (builtonlevelyet[i+y / yscale])
+                        for (int i = 0; i < roomsizey; i++)
                         {
-                            tx = x + roomsizex / 2;
-                            tz = z + roomsizez / 2;
-                            dx = 0;
-                            dz = 0;
-                            int[] addbackladder=new int[4];
-                            breaker2 = 0;
-                            // Add hallway before drawing room
-                            // generate pathfinding. Don't refresh yet
-                            GenerateDMap(0, true, true);
-                            RoomID++;
-                            //gothome = false;
-                            do
+                            if (builtonlevelyet[i + y / yscale])
                             {
-                                DrawHallway(tx, y+i*yscale, tz, hallmaterial, 2,0);
-                                AddMapGoal(0, new Vector3(tx, y+ i * yscale, tz));
-                                //RollDown(new Vector3(tx, y, tz), out dx, out dz, 0, true,-dx,-dz);
-                                RollDownMono(tx, y + i * yscale, tz, out dx, out dz, 0, -dx, -dz);
-                                tx += dx;
-                                tz += dz;
+                                tx = x + roomsizex / 2;
+                                tz = z + roomsizez / 2;
+                                dx = 0;
+                                dz = 0;
+                                int[] addbackladder = new int[4];
+                                breaker2 = 0;
+                                // Add hallway before drawing room
+                                // generate pathfinding. Don't refresh yet
+                                GenerateDMap(0, true, true);
+                                RoomID++;
+                                //gothome = false;
+                                do
+                                {
+                                    DrawHallway(tx, y + i * yscale, tz, hallmaterial, 2, 0);
+                                    AddMapGoal(0, new Vector3(tx, y + i * yscale, tz));
+                                    //RollDown(new Vector3(tx, y, tz), out dx, out dz, 0, true,-dx,-dz);
+                                    RollDownMono(tx, y + i * yscale, tz, out dx, out dz, 0, -dx, -dz);
+                                    tx += dx;
+                                    tz += dz;
 
-                                if (tx==x || tx==(x+roomsizex) || tz==z || tz==(z+roomsizez)) {
-                                    addbackladder[0] = tx;
-                                    addbackladder[1] = tz;
-                                    addbackladder[2] = -dx;
-                                    addbackladder[3] = -dz;
-                                }
+                                    if (tx == x || tx == (x + roomsizex) || tz == z || tz == (z + roomsizez))
+                                    {
+                                        addbackladder[0] = tx;
+                                        addbackladder[1] = tz;
+                                        addbackladder[2] = -dx;
+                                        addbackladder[3] = -dz;
+                                    }
 
-                                //Debug.Log(dx);
-                                //Debug.Log(dz);
-                                breaker2++;
+                                    //Debug.Log(dx);
+                                    //Debug.Log(dz);
+                                    breaker2++;
+                                    numtobuild -= 3;
+                                } while (DistGoal(new Vector3(tx, y + i * yscale, tz), 0) > minvalpath && breaker2 < 100);
+                                DrawHallway(tx, y + i * yscale, tz, hallmaterial, 2, 0);
                                 numtobuild -= 3;
-                            } while (DistGoal(new Vector3(tx, y+ i * yscale, tz), 0) > minvalpath && breaker2 < 100);
-                            DrawHallway(tx, y+ i * yscale, tz, hallmaterial, 2,0);
-                            numtobuild -= 3;
-                            AddMapGoal(0, new Vector3(tx, y+ i * yscale, tz));
-                            // Walk to ladderpositions
-                            FindDropAddLadder(addbackladder[0],y+i*yscale,addbackladder[1],addbackladder[2],addbackladder[3]);
-                            FindDropAddLadder(tx, y + i * yscale, tz, dx, dz);
-                        }
+                                AddMapGoal(0, new Vector3(tx, y + i * yscale, tz));
+                                // Walk to ladderpositions
+                                FindDropAddLadder(addbackladder[0], y + i * yscale, addbackladder[1], addbackladder[2], addbackladder[3]);
+                                FindDropAddLadder(tx, y + i * yscale, tz, dx, dz);
+                            }
 
-                        builtonlevelyet[i + y / yscale] = true;
+                            builtonlevelyet[i + y / yscale] = true;
+                        }
+                        builtonlevelyet[y / yscale] = true;
+                        BuildRoomType(x, roomsizex, z, roomsizez, y, hallmaterial, roomtype, false, 0, true);
+                        /*RoomTagBounds.Add(new int[6]);
+                        RoomTagBounds[RoomTagBounds.Count - 1][0] = x;
+                        RoomTagBounds[RoomTagBounds.Count - 1][1] = roomsizex;
+                        RoomTagBounds[RoomTagBounds.Count - 1][2] = y;
+                        RoomTagBounds[RoomTagBounds.Count - 1][3] = roomsizey;
+                        RoomTagBounds[RoomTagBounds.Count - 1][4] = z;
+                        RoomTagBounds[RoomTagBounds.Count - 1][5] = roomsizez;*/
+                        //BuildRoom(x, roomsizex, z, roomsizez, y, hallmaterial, false, 0,true);
+                        numtobuild -= (roomsizex - 1) * (roomsizez - 1);
+                        success = true;
                     }
-                    builtonlevelyet[y / yscale] = true;
-                    BuildRoomType(x, roomsizex, z, roomsizez, y, hallmaterial, roomtype, false, 0, true);
-                    /*RoomTagBounds.Add(new int[6]);
-                    RoomTagBounds[RoomTagBounds.Count - 1][0] = x;
-                    RoomTagBounds[RoomTagBounds.Count - 1][1] = roomsizex;
-                    RoomTagBounds[RoomTagBounds.Count - 1][2] = y;
-                    RoomTagBounds[RoomTagBounds.Count - 1][3] = roomsizey;
-                    RoomTagBounds[RoomTagBounds.Count - 1][4] = z;
-                    RoomTagBounds[RoomTagBounds.Count - 1][5] = roomsizez;*/
-                    //BuildRoom(x, roomsizex, z, roomsizez, y, hallmaterial, false, 0,true);
-                    numtobuild -= (roomsizex-1)*(roomsizez-1);
-                    success=true;
                 }
             }
+            //Debug.Log(DMaps);
+            PathDists[0] = rememberpathdist;
+
+            // Find places to put decorations
+            AddDecorations();
+
         }
-        //Debug.Log(DMaps);
-        PathDists[0] = rememberpathdist;
-
-        // Find places to put decorations
-        AddDecorations();
-
         GameObject newblock;
 
         // Fill in blocks
@@ -229,7 +236,7 @@ public partial class MapGen : MonoBehaviour {
             beastsadded++;
             PlaceMonster(-1, -1, -1, 1);
         }
-        SetRoomTagBounds();
+        //SetRoomTagBounds();
     }
 
     void AttemptBatching() {
