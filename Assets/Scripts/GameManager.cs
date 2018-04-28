@@ -22,9 +22,12 @@ public class GameManager : MonoBehaviour {
 
     string playerfilename;
     string mapfilename;
+    string saveslot;
+    //string sep = Path.DirectorySeparatorChar.ToString();
 
 	// Use this for initialization
 	void Awake () {
+        saveslot = Path.DirectorySeparatorChar+"001"+Path.DirectorySeparatorChar;
         playerfilename = "playerfile.json";
         mapfilename = "mapfile.json";
         frameswaited = 0;
@@ -164,36 +167,40 @@ public class GameManager : MonoBehaviour {
         return toreturn;
     }
 
-    public void SaveGame() {
+    public void SaveGame(int level) {
         SavePlayer savePlayer = new SavePlayer(player);
         SaveMap saveMap = MapGen.mapinstance.Save();
 
+        if (!Directory.Exists(Application.persistentDataPath + saveslot)) {
+            Directory.CreateDirectory(Application.persistentDataPath + saveslot);
+        }
+
         // Write playersave
         string json = JsonUtility.ToJson(savePlayer);
-        Debug.Log(Application.persistentDataPath + '/' + playerfilename);
-        File.WriteAllText(Application.persistentDataPath + '/' + playerfilename,json);
+        Debug.Log(Application.persistentDataPath + saveslot + playerfilename);
+        File.WriteAllText(Application.persistentDataPath + saveslot + playerfilename,json);
 
         // Write mapsave
         json = JsonUtility.ToJson(saveMap);
-        Debug.Log(Application.persistentDataPath + '/' + mapfilename);
-        File.WriteAllText(Application.persistentDataPath + '/' + mapfilename, json);
+        Debug.Log(Application.persistentDataPath + saveslot + level.ToString()+mapfilename);
+        File.WriteAllText(Application.persistentDataPath + saveslot + level.ToString() +mapfilename, json);
     }
 
-    public bool LoadGame()
+    public bool LoadGame(int level)
     {
-        if (File.Exists(Application.persistentDataPath + '/' + playerfilename))
+        if (File.Exists(Application.persistentDataPath + saveslot + playerfilename))
         {
             string json;
-            if (File.Exists(Application.persistentDataPath + '/' + mapfilename))
+            if (File.Exists(Application.persistentDataPath + saveslot + level.ToString() +mapfilename))
             {
                 // Load mapsave
-                json = File.ReadAllText(Application.persistentDataPath + '/' + mapfilename);
+                json = File.ReadAllText(Application.persistentDataPath + saveslot + level.ToString() +mapfilename);
                 SaveMap saveMap = JsonUtility.FromJson<SaveMap>(json);
                 MapGen.mapinstance.Load(saveMap);
             }
 
             // Load playersave
-            json = File.ReadAllText(Application.persistentDataPath + '/' + playerfilename);
+            json = File.ReadAllText(Application.persistentDataPath + saveslot + playerfilename);
             SavePlayer savePlayer = JsonUtility.FromJson<SavePlayer>(json);
             savePlayer.LoadData(player);
 

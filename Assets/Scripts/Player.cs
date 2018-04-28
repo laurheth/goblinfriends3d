@@ -148,11 +148,11 @@ public class Player : Unit {
         if (thisturn == true)
         {
             if (Input.GetKey(KeyCode.F4)) {
-                GameManager.instance.SaveGame();
+                GameManager.instance.SaveGame(level);
             }
             if (Input.GetKey(KeyCode.F5))
             {
-                GameManager.instance.LoadGame();
+                GameManager.instance.LoadGame(level);
             }
             if (Input.GetKey(KeyCode.Space) && (horizontal !=0 || vertical != 0) ) {
                 StartCoroutine(RotateSelf(Quaternion.LookRotation(new Vector3(horizontal, 0f, vertical))));
@@ -211,11 +211,12 @@ public class Player : Unit {
             else
             {
                 Step(horizontal, vertical);
-
+                //Debug.Log(MapGen.mapinstance.TileType(transform.position));
             }
 
             if (!thisturn)
             {
+                
                 //Debug.Log(MapGen.mapinstance.DistGoal(transform.position, 4));
                 if ((TargPos - transform.position).sqrMagnitude > 0.75)
                 {

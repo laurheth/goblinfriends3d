@@ -74,7 +74,7 @@ public class Vegan : Monster
         else {
             wandering = true;
         }
-
+        //Debug.Log(usemapnum);
         return usemapnum;
     }
 

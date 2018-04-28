@@ -230,6 +230,7 @@ MonoBehaviour:
   TargPos: {x: 0, y: 0, z: 0}
   TargDir: {x: 0, y: 0, z: 0, w: 0}
   boxcollider: {fileID: 7469317}
+  hunger: 0
   level: 0
   thisturn: 0
   climbing: 0
@@ -2185,7 +2186,7 @@ MonoBehaviour:
   level: 1
   NumGoblins: 10
   NumVegans: 6
-  NumBeasts: 0
+  NumBeasts: 2
   player: {fileID: 7469314}
   debugblock: {fileID: 1386368604232990, guid: c045146c6d8f849d392727a589fbc763, type: 2}
   decorations:

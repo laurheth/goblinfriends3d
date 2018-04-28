@@ -16,6 +16,7 @@ TagManager:
   - SpaceClaimer
   - GUIItemEntry
   - Stairs
+  - Barrier
   layers:
   - Default
   - TransparentFX

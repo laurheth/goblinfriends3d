@@ -183,19 +183,23 @@ public partial class MapGen : MonoBehaviour {
         }
 
         // Fill in path-map
+
         for (int k = 0; k < ysize; k++)
         {
             for (int i = 0; i < xsize; i++)
             {
                 for (int j = 0; j < zsize; j++)
                 {
-                    if (Map[i, k, j] < -1)
+                    if (PathMap[i, k, j] == ' ')
                     {
-                        PathMap[i, k, j] = '.';
-                    }
-                    else if (Map[i, k, j] > 0)
-                    {
-                        PathMap[i, k, j] = '#';
+                        if (Map[i, k, j] < -1)
+                        {
+                            PathMap[i, k, j] = '.';
+                        }
+                        else if (Map[i, k, j] > 0)
+                        {
+                            PathMap[i, k, j] = '#';
+                        }
                     }
                 }
             }

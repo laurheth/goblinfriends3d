@@ -142,5 +142,6 @@ public partial class MapGen : MonoBehaviour {
         RefreshEveryDMap();
         RenewMushroomMap();
         RenewGoblinHomeMap();
+        RenewNookMap();
     }
 }
