@@ -10,7 +10,7 @@ public class Monster : Unit
     public float[] desires;
     public float[] InverseDesires;
     [HideInInspector] public int monstertype; // 0, humanoid, can be reasoned with. 1, carnivore, scary, eats things. 2, herbivore, eats plants.
-    [HideInInspector] public int tiredness;
+    public int tiredness;
     [HideInInspector] public int bravery;
     //int tiredthresh;
     [HideInInspector] public int anger;

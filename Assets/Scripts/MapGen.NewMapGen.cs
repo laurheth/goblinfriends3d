@@ -202,10 +202,13 @@ public partial class MapGen : MonoBehaviour {
         }
 
         // shrooms
-        int numpatches = (xsize * zsize) / (600);
-        for (int i = 0; i < numpatches; i++)
+        if (!skipgen)
         {
-            MushroomPatch();
+            int numpatches = (xsize * zsize) / (600);
+            for (int i = 0; i < numpatches; i++)
+            {
+                MushroomPatch();
+            }
         }
         //GenerateDMap(1);
         // Generate goblinhome map
@@ -226,15 +229,18 @@ public partial class MapGen : MonoBehaviour {
         GameObject[] allobjects = GameObject.FindGameObjectsWithTag("Bl");*/
         RenewMushroomMap();
 
-        while (vegansadded < NumVegans)
+        if (!skipgen)
         {
-            vegansadded++;
-            PlaceMonster(-1, -1, -1, 2);
-        }
-        while (beastsadded < NumBeasts)
-        {
-            beastsadded++;
-            PlaceMonster(-1, -1, -1, 1);
+            while (vegansadded < NumVegans)
+            {
+                vegansadded++;
+                PlaceMonster(-1, -1, -1, 2);
+            }
+            while (beastsadded < NumBeasts)
+            {
+                beastsadded++;
+                PlaceMonster(-1, -1, -1, 1);
+            }
         }
         //SetRoomTagBounds();
     }

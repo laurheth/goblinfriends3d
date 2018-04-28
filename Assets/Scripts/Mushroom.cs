@@ -148,6 +148,9 @@ public class Mushroom : Item {
     public void Grow(bool forced=false) {
         if (alive || forced)
         {
+            if (!MapGen.mapinstance.mushrooms.Contains(this)) {
+                MapGen.mapinstance.mushrooms.Add(this);
+            }
             mesh.enabled = true;
             logsize++;
             if (logsize > 3)
@@ -203,7 +206,7 @@ public class Mushroom : Item {
             GameManager.instance.RemoveMushroomFromList(this);
             MapGen.mapinstance.mushrooms.Remove(this);
             //MapGen.mapinstance.RenewMushroomMap();
-            return Mathf.RoundToInt(rb.mass);
+            return Mathf.RoundToInt(rb.mass*10);
         }
         else {
             return 0;

@@ -43,10 +43,15 @@ public class Humanoid : Monster {
         // If hungry, find food
         else if (hunger > 20)
         {
-            if (MapGen.mapinstance.DistGoal(transform.position,5)<MapGen.mapinstance.PathDists[5]) {
+            if (MapGen.mapinstance.DistGoal(transform.position, 5) < MapGen.mapinstance.PathDists[5])
+            {
                 usemapnum = 5;
             }
-            usemapnum = 1;
+            else
+            {
+                usemapnum = 1;
+            }
+            //Debug.Log("Food finding");
         }
         // If tired, go home
         else if (tiredness > 20)
@@ -61,12 +66,13 @@ public class Humanoid : Monster {
                 }
             }
             usemapnum = 2;
+            //Debug.Log("Home finding");
         }
         else 
         {
             wandering = true;
         }
-
+        //Debug.Log("mapnum:" + usemapnum);
         return usemapnum;
 	}
 }

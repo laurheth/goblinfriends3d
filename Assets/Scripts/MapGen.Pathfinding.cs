@@ -391,6 +391,12 @@ public partial class MapGen : MonoBehaviour {
         PathRefreshed[mapnum] = true;
     }
 
+    public void RefreshEveryDMap() {
+        for (int i = 0; i < NumDMaps;i++) {
+            RefreshDMap(i,true);
+        }
+    }
+
     // Renew Mushroom Map
     public IEnumerator RenewMushroomMap() {
         RefreshDMap(1);
@@ -473,5 +479,17 @@ public partial class MapGen : MonoBehaviour {
             }
         }
         GenerateDMap(6);
+    }
+
+    public void RenewGoblinHomeMap()
+    {
+        RefreshDMap(2);
+        foreach (GameObject thismon in GameObject.FindGameObjectsWithTag("Monster")) {
+            Humanoid monscript = thismon.GetComponent<Humanoid>();
+            if (monscript!=null) {
+                AddMapGoal(2, monscript.HomeLocation);
+            }
+        }
+        GenerateDMap(2);
     }
 }

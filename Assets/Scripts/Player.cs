@@ -60,6 +60,7 @@ public class Player : Unit {
     public void RevertDirections() {
         dxmod = 1;
         dzmod = 1;
+        switchdir = false;
     }
 
     public void ControlDirections(int angle) {
@@ -210,10 +211,12 @@ public class Player : Unit {
             else
             {
                 Step(horizontal, vertical);
+
             }
 
             if (!thisturn)
             {
+                //Debug.Log(MapGen.mapinstance.DistGoal(transform.position, 4));
                 if ((TargPos - transform.position).sqrMagnitude > 0.75)
                 {
                     MapGen.mapinstance.RefreshDMap(0);

@@ -61,7 +61,8 @@ public partial class MapGen : MonoBehaviour {
 
     public void ClearMap() {
         GameObject[] objlist;
-        string[] tags = { "Items", "Decorations", "Plant", "Ladder", "Stairs", "Monster","Blocks","Floor"};
+        mushrooms.Clear();
+        string[] tags = { "Items", "Decorations", "Plant", "Ladder", "Stairs", "Monster","Blocks","Floor","Barrier"};
         foreach (string thistag in tags)
         {
             objlist = GameObject.FindGameObjectsWithTag(thistag);
@@ -101,12 +102,18 @@ public partial class MapGen : MonoBehaviour {
                 }
             }
         }
+
+        MakeMap(true);
+
         foreach (SaveMap.Thing thisthing in saveMap.ThingList) {
             GameObject newthing = GameManager.instance.MakeGameObject(thisthing.name);
 
 
             if (newthing.tag == "Plant" || newthing.tag=="Items") {
-                newthing.GetComponent<Item>().SetAttributes(thisthing.field1, thisthing.field2, thisthing.status);    
+                newthing.GetComponent<Item>().SetAttributes(thisthing.field1, thisthing.field2, !thisthing.status);    
+            }
+            if (newthing.tag == "Ladder") {
+                newthing.GetComponent<Ladder>().isbottom = thisthing.status;
             }
 
             newthing.transform.position = thisthing.position;
@@ -121,13 +128,19 @@ public partial class MapGen : MonoBehaviour {
             newthing.transform.rotation = thisthing.rotation;
             monscript.HomeLocation = thisthing.homeposition;
             monscript.alive = thisthing.status;
+            if (!monscript.alive) {
+                monscript.RagDollOn();
+            }
             monscript.tiredness = thisthing.tiredness;
             monscript.bravery = thisthing.bravery;
             monscript.anger = thisthing.anger;
             monscript.fear = thisthing.fear;
             monscript.hunger = thisthing.hunger;
         }
-        MakeMap(true);
+
         FindObjectOfType<Camera>().GetComponent<CameraManager>().CamInit();
+        RefreshEveryDMap();
+        RenewMushroomMap();
+        RenewGoblinHomeMap();
     }
 }

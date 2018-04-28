@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
     protected int horizontal;
     protected int vertical;
     private int glownum;
-    [HideInInspector] public int hunger;
+    public int hunger;
     public int level;
     protected bool rotating;
     //protected bool falling;
@@ -156,14 +156,14 @@ public class Unit : MonoBehaviour
         return rend.isVisible;
     }
 
-    protected void RagDollOn()
+    public void RagDollOn()
     {
         boxcollider.enabled = false;
         //GetComponent<MeshCollider>().enabled = true;
         rb.isKinematic = false;
     }
 
-    protected void RagDollOff()
+    public void RagDollOff()
     {
         rb.isKinematic = true;
         boxcollider.enabled = true;
@@ -364,7 +364,7 @@ public class Unit : MonoBehaviour
     }*/
 
 
-    public void GetHit(Vector3 AttackDir, int damage,float impulsemult=1f)
+    public void GetHit(Vector3 AttackDir, int damage,float impulsemult=50f)
     {
         hitpoints -= damage;
         StartCoroutine(RedFlash(damage));
@@ -866,7 +866,7 @@ public class Unit : MonoBehaviour
                     rb.AddForce(impulse, ForceMode.Impulse);
                 }
             }
-            else if (hitter.GetComponent<Unit>()!=null && hrb.isKinematic == false) {
+            else if (hitter.GetComponent<Unit>()!=null && hrb.isKinematic == false && hitter.GetComponent<Unit>().alive) {
                 falling = true;
                 RagDollOn();
                 rb.AddForce(collision.impulse, ForceMode.Impulse);
