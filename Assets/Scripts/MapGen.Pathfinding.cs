@@ -188,7 +188,7 @@ public partial class MapGen : MonoBehaviour {
     public char TileType(int x, int y, int z, bool replace=false,char replacewith=' ')
     {
         if (x<0 || x>=xsize || y<0 || y>=ysize || z<0 || z>=zsize) {
-            return ' ';
+            return '#';
         }
         if (replace) {
             PathMap[x, y, z] = replacewith;

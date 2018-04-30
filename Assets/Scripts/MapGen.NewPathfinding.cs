@@ -78,14 +78,15 @@ public partial class MapGen : MonoBehaviour
         int k=0;
         for (int i = -1; i < 2;i++) {
             for (int j = -1; j < 2;j++) {
-                if (PathMap[i + NewPos.x, k + NewPos.y, j + NewPos.z] != '#')
+                //if (PathMap[i + NewPos.x, k + NewPos.y, j + NewPos.z] != '#')
+                if (TileType(i+NewPos.x,k+NewPos.y,j+NewPos.z) != '#')
                 {
                     k = 0;
                     if (i==0 && j==0) {
-                        if (PathMap[i + NewPos.x, k + NewPos.y, j + NewPos.z] == '>' || PathMap[i + NewPos.x, k + NewPos.y, j + NewPos.z] == ' ') {
+                        if (TileType(i + NewPos.x, k + NewPos.y, j + NewPos.z) == '>' || TileType(i + NewPos.x, k + NewPos.y, j + NewPos.z) == ' ') {
                             k = -yscale;
                         }
-                        if (PathMap[i + NewPos.x, k + NewPos.y, j + NewPos.z] == '<')
+                        if (TileType(i + NewPos.x, k + NewPos.y, j + NewPos.z) == '<')
                         {
                             k = yscale;
                         }
